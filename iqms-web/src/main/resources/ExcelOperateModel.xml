@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<models>
+	<!--机构分析报表-->
+	<model id="organalysereport" title="机构分析报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealCount" column="4" excelTitleName="总受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="avgWait" column="5" excelTitleName="平均等待时长(分钟)" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="maxWait" column="6" excelTitleName="最大等待时长(分钟)" isNull="Y" maxLength="100" dataType="Date yyyy-MM-dd" fixity="NO" codeTableName="" default="" />
+		<property name="minWait" column="7" excelTitleName="最小等待时长(分钟)" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="avgDeal" column="8" excelTitleName="平均受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="maxDeal" column="9" excelTitleName="最大受理时长(分钟)" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="minDeal" column="10" excelTitleName="最小受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	<!--客户来行时间报表-->
+	<model id="cometimereport" title="来行时间报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="sevenCount" column="3" excelTitleName="7点到8点" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="eightCount" column="4" excelTitleName="8点到9点" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="nineCount" column="5" excelTitleName="9点到10点" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="tenCount" column="6" excelTitleName="10点到11点" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="elevenCount" column="7" excelTitleName="11点到12点" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="twelveCount" column="8" excelTitleName="12点到13点" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="thirteenCount" column="9" excelTitleName="13点到14点" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="fourteenCount" column="10" excelTitleName="14点到15点" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="fifteenCount" column="11" excelTitleName="15点到16点" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="sixteenCount" column="12" excelTitleName="16点到17点" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="seveteenCount" column="13" excelTitleName="17点到18点" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="eighteeCount" column="14" excelTitleName="18点到19点" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	<!--柜员效率报表-->
+	<model id="empefficiencyreport" title="柜员效率报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="workId" column="2" excelTitleName="柜员工号" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="workName" column="2" excelTitleName="柜员姓名" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealCount" column="4" excelTitleName="总受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="avgDeal" column="8" excelTitleName="平均受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="maxDeal" column="9" excelTitleName="最大受理时长(分钟)" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="minDeal" column="10" excelTitleName="最小受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	<!--柜员评价报表-->
+	<model id="empappraisereport" title="柜员评价报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="workId" column="2" excelTitleName="柜员工号" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="workName" column="2" excelTitleName="柜员姓名" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="appContent" column="4" excelTitleName="满意" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="appSoso" column="8" excelTitleName="一般满意" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="appDiscontent" column="9" excelTitleName="不满意" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="appNonapp" column="10" excelTitleName="未评价" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="rateContent" column="4" excelTitleName="满意率" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="rateSoso" column="8" excelTitleName="基本满意率" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="rateDiscontent" column="9" excelTitleName="不满意率" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="rateNonapp" column="10" excelTitleName="未评价率" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	<!--客户分析报表-->
+	<model id="cusanalysereport" title="客户分析报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="custName" column="3" excelTitleName="客户类型" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealCount" column="4" excelTitleName="总受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="avgWait" column="5" excelTitleName="平均等待时长(分钟)" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="maxWait" column="6" excelTitleName="最大等待时长(分钟)" isNull="Y" maxLength="100" dataType="Date yyyy-MM-dd" fixity="NO" codeTableName="" default="" />
+		<property name="minWait" column="7" excelTitleName="最小等待时长(分钟)" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="avgDeal" column="8" excelTitleName="平均受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="maxDeal" column="9" excelTitleName="最大受理时长(分钟)" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="minDeal" column="10" excelTitleName="最小受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	<!--业务流水报表-->
+	<model id="businessflowreport" title="业务流水报表" class="com.aoto.monitorreport.exportmodel.TrxtodayHistoryExport">
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="trxDate" column="3" excelTitleName="日期" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="businessName" column="5" excelTitleName="业务类型" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="ticketNo" column="9" excelTitleName="排队号" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="custName" column="6" excelTitleName="客户等级" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="tellerNo" column="10" excelTitleName="柜员编号" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="appValue" column="8" excelTitleName="评价值" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="printTime" column="4" excelTitleName="打印时间" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="callTime" column="5" excelTitleName="呼叫时间" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="beginTime" column="6" excelTitleName="业务办理时间" isNull="Y" maxLength="100" dataType="Date yyyy-MM-dd" fixity="NO" codeTableName="" default="" />
+		<property name="endTime" column="7" excelTitleName="业务结束时间" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="flowNo" column="4" excelTitleName="票号流水" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	
+	<!--业务量报表-->
+	<model id="businesscountreport" title="业务量报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="businessName" column="3" excelTitleName="业务名称" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealCount" column="4" excelTitleName="总受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="avgWait" column="5" excelTitleName="平均等待时长(分钟)" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="maxWait" column="6" excelTitleName="最大等待时长(分钟)" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="minWait" column="7" excelTitleName="最小等待时长(分钟)" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="avgDeal" column="8" excelTitleName="平均受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<property name="maxDeal" column="9" excelTitleName="最大受理时长(分钟)" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="minDeal" column="10" excelTitleName="最小受理时长(分钟)" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+	
+	<!--业务统计报表-->
+	<model id="businessstatisticsreport" title="业务统计报表" >
+		<property name="orgCode" column="1" excelTitleName="机构号" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="businessName" column="3" excelTitleName="业务名称" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="custName" column="3" excelTitleName="客户类型" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealCount" column="4" excelTitleName="总受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="waitCount" column="6" excelTitleName="等待超时" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="notwaitCount" column="5" excelTitleName="等待未超时" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="dealwaitCount" column="7" excelTitleName="办理超时" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="notdealwaitCount" column="8" excelTitleName="办理未超时" isNull="Y" maxLength="200" dataType="Integer" fixity="NO" codeTableName="" default="" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+	
+		<!--弃票率报表 20181128 tianjm-->
+	<model id="abandonratereport" title="弃票率报表" >
+		<property name="orgCode" column="1" excelTitleName="机构编码" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="orgName" column="2" excelTitleName="机构名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="businessName" column="3" excelTitleName="业务名称" isNull="Y" maxLength="200" dataType="String" fixity="NO" codeTableName="" default="" />
+		<property name="totalCount" column="4" excelTitleName="总取票量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="totalWait" column="5" excelTitleName="未受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="totalDeal" column="6" excelTitleName="受理量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="totalAbandon" column="7" excelTitleName="弃票量" isNull="Y" maxLength="50" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<property name="abandonRate" column="8" excelTitleName="弃票率" isNull="Y" maxLength="100" dataType="String" fixity="NO" codeTableName="sex" default="F" />
+		<flag name="flag" />
+		<message name="message" excelTitleName="操作结果" />
+	</model>
+
+</models>

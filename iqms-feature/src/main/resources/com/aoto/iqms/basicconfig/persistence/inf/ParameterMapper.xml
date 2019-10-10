@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.ParameterMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectParameterByMap" type="map" >
+	    <result column="HB_INTERVAL" property="hbInterval" javaType="String" jdbcType="VARCHAR" />
+	    <result column="AUTHENTICATION_TYPE" property="authenticationType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FLOW_PORT" property="flowPort" javaType="String" jdbcType="VARCHAR" />
+	    <result column="HTTP_PORT" property="httpPort" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IDENT_PORT" property="identPort" javaType="String" jdbcType="VARCHAR" />
+	    <result column="APP_ROOT" property="appRoot" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- by hongxz 20170926 单独定义字典类型映射关系 -->
+    <resultMap id="selectSysDicByMap" type="map" >
+	    <result column="dic_key" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="dic_value" property="value" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	
+ 
+  <!--调用存储过程进行查询--> 
+  <select id="callParameter" parameterType="map"  statementType="CALLABLE">
+  	 {call proc_bcparameter_query(
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectParameterByMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callSaveOrUpdateParameter" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcparameter_edit(
+	  	  	#{hbInterval,jdbcType=VARCHAR,mode=IN},
+	  	  	#{authenticationType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{flowPort,jdbcType=VARCHAR,mode=IN},
+	  	  	#{httpPort,jdbcType=VARCHAR,mode=IN},
+	  	  	#{identPort,jdbcType=VARCHAR,mode=IN},
+	  	  	#{appRoot,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行字典表(sys_dic)查询--> 
+  <select id="callSysDicQuery" parameterType="map"  statementType="CALLABLE">
+  	 {call proc_dic_query(
+  	 		#{dicType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectSysDicByMap}
+	    )
+	  }  
+  </select>
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.monitor.persistence.inf.TrxTodayMapper">
+    
+     <resultMap id="todayPage" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="TRX_DATE" property="trxDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FLOW_NO" property="flowNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="BUS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_TYPE" property="busType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PDJ_LEVEL" property="pdjLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_TYPE" property="ticketType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_NO" property="ticketNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_NO" property="cardNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MANAGER_NO" property="managerNO" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRX_TYPE" property="trxType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRX_STATUS" property="trxStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRINT_TIME" property="printTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_TIME" property="callTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="APP_VALUE" property="appValue" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TELLER_NO" property="tellerNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="RECALL_COUNT" property="recallCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PAUSE_BEGINTIME" property="pauseBeginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PAUSE_ENDTIME" property="pauseEndTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_TYPE" property="callType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRANSFER_COUNT" property="transferCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUZ_FLAG" property="buz_flag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="todayQuery" type="map" >
+	    <result column="total_count" property="total" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="wait_count" property="wait" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="doing_count" property="doing" javaType="String" jdbcType="VARCHAR" />
+	    <result column="vip_total_count" property="vipTotal" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="vip_wait_count" property="vipWait" javaType="String" jdbcType="VARCHAR" />
+	    <result column="totalFinished" property="totalFinished" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="todayBus" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="trx_date" property="trxDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="bus_id" property="busId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="business_name" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="busCount" property="busCount" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageTrxToday" parameterType="map" statementType="CALLABLE">
+  	 {call proc_trxtoday_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=todayPage}
+	    )
+	  }  
+  </select>
+  
+  <!--查询总取号数，等候人数等等--> 
+  <select id="callTrxTodayQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_trxtoday_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=todayQuery}
+	    )
+	  }  
+  </select>
+  
+  <!-- 查询当天不同业务类型数量 -->
+  <select id="callTrxTodayBus" parameterType="map" statementType="CALLABLE">
+  	{call proc_trxtoday_bus(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=todayBus}
+	    )
+	  }  
+  </select>
+  
+  <!--更新流水数据-->
+  <update id="updateTrxToday" parameterType="map">
+  	 update trx_today t set  
+  	 <if test="trxStatus != null and trxStatus != ''">
+	      t.trx_status =#{trxStatus,jdbcType=VARCHAR}
+	   </if>
+	   <if test="busType != null and busType != ''">
+	      t.bus_id =#{busType,jdbcType=VARCHAR},
+	      t.bus_type = #{busCode,jdbcType=VARCHAR} 
+	   </if>
+	   where t.device_no = #{deviceNo,jdbcType=VARCHAR} 
+	   and t.ticket_no = #{ticketNo,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

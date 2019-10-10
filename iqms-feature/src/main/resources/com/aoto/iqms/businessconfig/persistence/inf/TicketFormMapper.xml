@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.TicketFormMapper">
+    
+  <resultMap id="selectTicketFormPage" type="map" >
+	    <result column="TKTTMP_ID" property="tktTmpId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTTMP_NAME" property="tktTmpName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEF" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTFORMAT_ID" property="tktFormatId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTFORMAT" property="tktFormat" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTTMP_STYLE" property="tktTmpStyle" javaType="String" jdbcType="VARCHAR" />
+	    <!-- by hongxz 2017 0926  增加org_id和device_no 字段 -->
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SCREEN_RESOLUTION" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+    <resultMap id="selectTicketFormCheck" type="map" >
+	    <result column="TKTFORMAT_ID" property="tktFormatId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTTMP_NAME" property="tktTmpName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTFORMAT" property="tktFormat" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTTMP_STYLE" property="tktTmpStyle" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ticketSytelFlag" property="ticketSytelFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <resultMap id="selectSettingsPage" type="map" >
+	    <result column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="KEY" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VALUE" property="value" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="tktFormatsMap" type="map" >
+	    <result column="tktTmpId" property="tktTmpId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tktTmpName" property="tktTmpName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="def" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tktFormatId" property="tktFormatId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tktFormat" property="tktFormat" javaType="String" jdbcType="VARCHAR" />
+	    <result column="print" property="print" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <!-- 导航配置：查询设备的默认号票 -->
+  <resultMap id="navDefDevTicketfrom" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="screen_resolution" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tkttmp_id" property="tktTmpId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tkttmp_name" property="tktTmpName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="def" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="tktformat_id" property="tktFormatId" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="addTicketForm" parameterType="map" statementType="CALLABLE">
+  	 {call proc_ticketform_add(
+  	 		#{tktTmpId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormatId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormat,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+   <!--查询--> 
+  <select id="selectTicketForm" parameterType="map" resultMap="selectTicketFormPage">
+  	 select b.*,d.SCREEN_RESOLUTION from bc_ticketform b left join bsc_device d on (b.DEVICE_NO = d.DEVICE_NO) where b.org_id = #{orgId} and b.device_no = #{deviceNo} order by b.tkttmp_id
+  </select>
+  
+  <select id="updateTicketForm" parameterType="map" statementType="CALLABLE">
+  	{call proc_ticketform_update(
+  			#{tktTmpId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormatId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormat,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+  		)
+  	}
+  </select>
+  
+  <select id="deleteTicketForm" parameterType="map" statementType="CALLABLE">
+  	{call proc_ticketform_delete(
+  			#{tktTmpId,jdbcType=VARCHAR,mode=IN},
+  			#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+  		)
+  	}
+  </select>
+  
+   <!--号票预览，根据号票模板id查询号票--> 
+  <select id="previewTicketform" parameterType="string" resultType ="string">
+  	 select b.TKTTMP_STYLE from bc_ticketform b where b.tkttmp_id = #{tktTmpId} 
+  </select>
+  
+   <!--根据ID查询单条号票数据--> 
+  <select id="selectOneTicketForm" parameterType="map" resultMap="selectTicketFormPage">
+  	 select * from bc_ticketform b where b.tkttmp_id = #{tktTmpId} and b.org_id = #{orgId} and b.device_no = #{deviceNo}
+  </select>
+  
+   <!--根据类型查询元素列表配置--> 
+  <select id="selectSettings" parameterType="map" resultMap="selectSettingsPage">
+  	 select * from BSC_Setting b where b.type = #{type}
+  </select>
+  
+  <!--导航配置 ：查询设备的默认号票--> 
+  <select id="navDefDevTicketfrom" parameterType="map" resultMap="navDefDevTicketfrom">
+  select d.org_id,
+       d.device_no,
+       d.screen_resolution,
+       tf.tkttmp_id,
+       tf.tkttmp_name,
+       tf.def,
+       tf.tktformat_id
+  from bsc_device d
+  left join bc_ticketform tf
+    on (d.device_no = tf.device_no and tf.def = '1')
+  where d.device_no = #{deviceNo}
+  </select>
+  
+  
+   <!--保存号票样式--> 
+  <select id="saveTicketform" parameterType="map" statementType="CALLABLE">
+  	 {call proc_ticketform_save(
+  	 		#{tktTmpId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormatId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormat,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpStyle,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  <!--新增号票（导航使用）--> 
+  <select id="saveNavTicketform" parameterType="map" statementType="CALLABLE">
+  	 {call proc_ticketform_navsave(
+  	 		#{tktTmpId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormatId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktFormat,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tktTmpStyle,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{RetTtkTmpId,jdbcType=VARCHAR,mode=OUT},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyTicket" parameterType="map" statementType="CALLABLE">
+  	 {call proc_ticket_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程应用到下级机构-->
+  <!-- <select id="callUpdateTicket" parameterType="map" statementType="CALLABLE">
+  	 {call proc_ticket_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select> -->
+  <!--调用存储过程查询业务下载-->
+  <select id="callTktFormats" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tktFormats_query(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=tktFormatsMap}
+	    )
+	  }  
+	</select>
+	
+	<!-- by hongxz 20171207 一键检测 查询号票模板信息 -->
+  <select id="checkedTicketModel" parameterType="map" resultMap="selectTicketFormCheck">
+		select tf.device_no,
+		       tkttmp_name,
+	           tf.tktformat_id,
+	           (case
+	             when tf.tkttmp_style is null then
+	              '0'
+	             else
+	              '1'
+	           end) ticketSytelFlag
+	      from bc_ticketform tf 
+	     where tf.device_no = #{deviceNo,jdbcType=VARCHAR}
+   </select>
+	
+	
+</mapper>

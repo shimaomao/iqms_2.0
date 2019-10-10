@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.CallStrategyMapper">
+    
+  <resultMap id="selectWinConfigPage" type="map" >
+  		<result column="WIN_ID" property="winId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+   <resultMap id="selectBuzTypePage" type="map" >
+	    <result column="BUSINESS_CODE" property="businessCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+   <resultMap id="selectCounterBuzPage" type="map" >
+	    <result column="BUS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_CODE" property="businessCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="buzPriorityTime" property="buzPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="custPriorityTime" property="custPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_WAIT_TIME" property="maxWaitTime" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <resultMap id="selectCounterBuzsByWinIdPage" type="map" >
+	    <result column="COUNTERID" property="counterId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATETYPEID" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUZTYPEID" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVELID" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUZPRIORITYTIME" property="buzPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUSTPRIORITYTIME" property="custPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAXWAITING" property="maxWaitTime" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+   <resultMap id="selectDevicePage" type="map" >
+	    <result column="BUZPRIORITYTIME" property="buzPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUSTPRIORITYTIME" property="custPriorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAXWAITING" property="maxWaiting" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVELID" property="levelId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="cnName" property="cnName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="levelName" property="levelName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="buzCode" property="buzCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="buzTypeId" property="buzTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="saveDjStatus" property="saveDjStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="counterid" property="counterId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="datetypeid" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+  </resultMap> 
+  
+  <resultMap id="selectCounterIdPage" type="map" >
+	    <result column="COUNTERID" property="counterId" javaType="String" jdbcType="VARCHAR" />
+  </resultMap> 
+  
+  <!--查询窗口列表--> 
+  <select id="selectWinConfig" parameterType="map" statementType="CALLABLE" >
+  	   {call proc_winconfig_select(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectWinConfigPage}
+	    )
+	   }  
+  </select>
+  
+  <!--查询业务类型--> 
+  <select id="selectBuzType" parameterType="map" statementType="CALLABLE">
+	 {call proc_buztype_select(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBuzTypePage}
+	    )
+	 }  
+  </select>
+  
+ <!--查询业务类型与客户等级的笛卡尔乘积--> 
+  <select id="selectCounterBuz" parameterType="map" statementType="CALLABLE">
+  	{call proc_counterbuz_select(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectCounterBuzPage}
+	    )
+	 }  
+  </select>
+  
+  <!--查询保存的窗口统计数据--> 
+  <select id="selectCounterBuzsByWinId" parameterType="map" statementType="CALLABLE">
+	{call proc_counterbuzbywinid_select(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectCounterBuzsByWinIdPage}
+	    )
+	 }  
+  </select>
+  
+  <!--删除窗口统计数据--> 
+  <select id="deleteCounterBuzs" parameterType="map" statementType="CALLABLE">
+	{call proc_counterbuz_delete(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  <!--调用存储过程进行保存配置到数据库-->
+  <select id="saveCounterBuzs" parameterType="map" statementType="CALLABLE">
+  	 {call proc_counterbuzs_add(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{counterId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{buzPriorityTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custPriorityTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxWaitTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  <!--查询所有设备窗口-->
+  <select id="selectCounterId" parameterType="map" statementType="CALLABLE">
+  	 {call proc_counterid_select(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectCounterIdPage}
+	    )
+	 }  
+  </select>
+  
+  <!--查询所有设备信息-->
+  <select id="selectDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_device_select(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectDevicePage}
+	    )
+	 }  
+  </select>
+  <!--调用存储过程应用到下级机构-->
+  <select id="callStrategyCopy" parameterType="map" statementType="CALLABLE">
+  	 {call proc_callstrategy_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+    <!-- by hongxz 20171206 一键检测  检测窗口业务 -->
+  <select id="checkedWinBuz" parameterType="map" resultMap="selectCounterBuzsByWinIdPage">
+       select cb.counterid, cb.datetypeid
+     from bsc_counterbuz cb
+    where cb.device_no = #{deviceNo,jdbcType=VARCHAR}
+    group by cb.counterid, cb.datetypeid
+  </select>
+  
+</mapper>

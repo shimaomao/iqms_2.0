@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.report.persistence.inf.BusinessFlowReportMapper">
+    
+     <!-- 分页查询输出结果 -->
+    <resultMap id="selectBusinessFlowReportByPageMap" type="map" >
+	    <id column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <id column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <id column="TRX_DATE" property="trxDate" javaType="String" jdbcType="VARCHAR" />
+	    <id column="FLOW_NO" property="flowNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_NO" property="ticketNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_TYPE" property="custType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TELLER_NO" property="tellerNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRINT_TIME" property="printTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_TIME" property="callTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="APP_VALUE" property="appValue" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRX_STATUS" property="trxStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PDJ_LEVEL" property="pdjLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_TYPE" property="ticketType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_NO" property="cardNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MANAGER_NO" property="managerNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="procPageBFReport" parameterType="map" statementType="CALLABLE">
+  	 {call proc_report_businessflow(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{appValue,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBusinessFlowReportByPageMap}
+	    )
+	  }  
+  </select>
+  
+</mapper>

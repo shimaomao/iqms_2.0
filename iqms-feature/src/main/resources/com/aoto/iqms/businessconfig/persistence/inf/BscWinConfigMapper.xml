@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscWinConfigMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectBscWinConfigByPageMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_CALL" property="isCall" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_JUDGE" property="isJudge" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_START" property="isStart" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_SCREEN" property="winScreen" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MULTIPLE_SCREEN" property="multipleScreen" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROW_ID" property="rowId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	 <!-- Counters -->
+    <resultMap id="CountersMap" type="map" >
+	    <result column="counterId" property="counterId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="saveStatus" property="saveStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="counterNo" property="counterNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="enabled" property="enabled" javaType="String" jdbcType="VARCHAR" />
+	    <result column="caller" property="caller" javaType="String" jdbcType="VARCHAR" />
+	    <result column="evaluator" property="evaluator" javaType="String" jdbcType="VARCHAR" />
+	    <result column="barscn" property="barscn" javaType="String" jdbcType="VARCHAR" />
+	    <result column="cmpscn" property="cmpscn" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageBscWinConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscWinConfigByPageMap}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程查询--> 
+  <select id="callBscWinConfigQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscWinConfigByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBscWinConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isCall,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isJudge,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winScreen,jdbcType=VARCHAR,mode=IN},
+	  	  	#{multipleScreen,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isStart,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rowId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBscWinConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isCall,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isJudge,jdbcType=VARCHAR,mode=IN},
+	  	  	#{winScreen,jdbcType=VARCHAR,mode=IN},
+	  	  	#{multipleScreen,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isStart,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteBscWinConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	        #{winNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyBscWinConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscwinconfig_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询--> 
+  <select id="callCounters" parameterType="map" statementType="CALLABLE">
+  {call proc_counters_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=CountersMap}
+	    )
+	 }
+  </select>
+  
+  <!-- by hongxz 20171206 一键检测  查询所有的窗口信息 -->
+  <select id="checkedWinInfo" parameterType="map" resultMap="selectBscWinConfigByPageMap">
+       select h.ORG_ID,
+	       h.DEVICE_NO,
+	       h.WIN_NO,
+	       h.IS_CALL,
+	       h.IS_JUDGE,
+	       h.WIN_SCREEN,
+	       h.MULTIPLE_SCREEN,
+	       h.IS_START,
+	       h.EXTEND1,
+	       h.EXTEND2,
+	       h.EXTEND3,
+	       s.org_code,
+	       s.org_name
+	  from bsc_win_config h
+	  inner join sys_org s
+	    on h.org_id = s.org_id
+	  WHERE h.DEVICE_NO = #{deviceNo,jdbcType=VARCHAR}
+	    order by to_number(WIN_NO)
+  </select>
+  
+</mapper>

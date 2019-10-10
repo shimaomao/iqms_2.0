@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.TellerMapper">
+    
+     <resultMap id="tellerPage" type="map" >
+	    <id column="WORK_ID" property="workId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_Name" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALLER_PWD" property="callerPwd" javaType="String" jdbcType="VARCHAR" />
+	    <result column="NAME_" property="name_" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SEX" property="sex" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STATUS" property="status" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="tellersMap" type="map" >
+	    <result column="WORK_ID" property="tellerNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALLER_PWD" property="pwd" javaType="String" jdbcType="VARCHAR" />
+	    <result column="NAME_" property="tellerName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SEX" property="gender" javaType="String" jdbcType="VARCHAR" />
+	    <result column="saveStatus" property="saveStatus" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageTeller" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcteller_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{name_,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=tellerPage}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertTeller" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcteller_add(
+	  	  	#{workId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callerPwd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{name_,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sex,jdbcType=VARCHAR,mode=IN},
+	  	  	#{status,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+<!--调用存储过程进行记录更新-->
+  <select id="callUpdteTeller" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcteller_edit(
+	  	  	#{workId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callerPwd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{name_,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sex,jdbcType=VARCHAR,mode=IN},
+	  	  	#{status,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteTeller" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcteller_remove(
+  	        #{workId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+   <!--调用存储过程进行查询tellers--> 
+  <select id="callTellers" parameterType="map" statementType="CALLABLE">
+  {call proc_tellers_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=tellersMap}
+	    )
+	 }
+  </select>
+  
+  <!--根据柜员工号查询数据-->
+  <select id="findTellerByWorkId" parameterType="map" resultMap="tellerPage">
+  	 select * from bc_teller where work_id = #{workId}
+  </select>
+</mapper>

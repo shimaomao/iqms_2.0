@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.report.persistence.inf.BusinessStatisticsReportMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectBusinessStatisticsReportByPageMap" type="map" >
+	    <id column="rnum" property="rnum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_TYPE" property="busType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEAL_COUNT" property="dealCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WAIT_COUNT" property="waitCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="NOTWAIT_COUNT" property="notwaitCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEALWAIT_COUNT" property="dealwaitCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="NOTDEALWAIT_COUNT" property="notdealwaitCount" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="procPageBSReport" parameterType="map" statementType="CALLABLE">
+  	 {call proc_report_businessstatistics(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBusinessStatisticsReportByPageMap}
+	    )
+	  }  
+  </select>
+  
+   <!--调用存储过程进行分页查询--> 
+  <select id="procPageBSReportGraphic" parameterType="map" statementType="CALLABLE">
+  	 {call proc_report_busGraphic(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBusinessStatisticsReportByPageMap}
+	    )
+	  }  
+  </select>
+  
+</mapper>

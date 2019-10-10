@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscSpecialDateMapper">
+    
+    <!-- 查询输出结果 -->
+    <resultMap id="BscSpecialDateMap" type="map" >
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SPECIAL_DATE" property="specialDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATE_TYPE" property="dateType" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+   <resultMap id="specialDatesMap" type="map" >
+	    <!-- <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> -->
+	    <result column="SPECIAL_DATE" property="spDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATE_TYPE" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="saveStatus" property="saveStatus" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+  <!--调用存储过程进行查询--> 
+  <select id="callSpecialDateQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscspecialdate_query(
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=BscSpecialDateMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertSpecialDate" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscspecialdate_add(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{specialDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+	<!--调用存储过程进行记录删除-->
+   <select id="callDeleteSpecialDate" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscspecialdate_remove(
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopySpecialDate" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscspecialdate_copy(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询--> 
+  <select id="callSpecialDates" parameterType="map" statementType="CALLABLE">
+  {call proc_specialdates_query(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=specialDatesMap}
+	    )
+	 }
+  </select>
+  
+</mapper>

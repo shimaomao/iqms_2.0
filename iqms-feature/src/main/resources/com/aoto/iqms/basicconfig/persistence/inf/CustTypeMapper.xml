@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.CustTypeMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectCustTypeByPageMap" type="map" >
+	    <id column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VIP_FLAG" property="vipFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SMS_FLAG" property="smsFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WAIT_TIMEOUT" property="waitTimeout" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRESENT_FLAG" property="presentFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_USE" property="isUse" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="expend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="expend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="expend3" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageCustType" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusttype_page(
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectCustTypeByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertCustType" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusttype_add(
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{vipFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{smsFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{waitTimeout,jdbcType=VARCHAR,mode=IN},
+	  	  	#{presentFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isUse,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteCustType" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusttype_edit(
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{vipFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{smsFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{waitTimeout,jdbcType=VARCHAR,mode=IN},
+	  	  	#{presentFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isUse,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteCustType" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusttype_remove(
+  	        #{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+   <!--查询银行配置的所有可用的业务-->
+  <select id="findCusLevelInfoByConditon" parameterType="map" resultMap="selectCusLevelByPageMap">
+  	select * from bc_custtype  WHERE IS_USE = 1 order by cust_level
+  </select>
+  
+  <!-- 分页查询输出结果 -->
+    <resultMap id="selectCusLevelByPageMap" type="map" >
+	    <id column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="REMARK" property="remark" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_USE" property="isUse" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+  
+</mapper>

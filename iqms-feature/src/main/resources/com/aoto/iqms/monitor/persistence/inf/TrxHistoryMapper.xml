@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.monitor.persistence.inf.TrxHistoryMapper">
+	 <resultMap id="yesterdayQuery" type="map" >
+	    <result column="yes_total_count" property="yesTotal" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="yes_vip_total" property="yesVipTotal" javaType="String" jdbcType="VARCHAR" /> 
+	 </resultMap>
+ 
+  
+  <!--查询昨日总取号数，等候人数等等--> 
+  <select id="callTrxYesterdayQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_trxyesterday_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=yesterdayQuery}
+	    )
+	  }  
+  </select>
+  
+  
+</mapper>

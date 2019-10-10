@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.monitor.persistence.inf.BscDeviceStatusMapper">
+    
+     <resultMap id="deviceStatusPage" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="CPU_RATIO" property="cpuRatio" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MEM_RATIO" property="memRatio" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DISK_RATIO" property="diskRatio" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VERSION_SEQ" property="versionSeq" javaType="String" jdbcType="VARCHAR" />
+	    <result column="THERMALPRINTER_STATUS" property="thermalprinterStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="NEEDLEPRINTER_STATUS" property="needleprinterStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IDREADER_STATUS" property="idreaderStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SWREAD_STATUS" property="swreadStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ICREADER_STATUS" property="icreaderStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BAR_STATUS" property="barStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="COMP_STATUS" property="compStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CURRT_VERNAME" property="currtVername" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LAST_VERNAME" property="lastVername" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ONLINE_FLAG" property="onLineFlag" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 <resultMap id="deviceStatusShow" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="CPU_RATIO" property="cpuRatio" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MEM_RATIO" property="memRatio" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DISK_RATIO" property="diskRatio" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CURRT_VERNAME" property="currtVername" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LAST_VERNAME" property="lastVername" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageMoBscDeviceStatus" parameterType="map" statementType="CALLABLE">
+  	 {call proc_mobscdevicestatus_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{onLineFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=deviceStatusPage}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行详情查询--> 
+  <select id="callBscDeviceStatusShow" parameterType="map" statementType="CALLABLE">
+  	 {call proc_mobscdevicestatus_show(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=deviceStatusShow}
+	    )
+	  }  
+  </select>
+</mapper>

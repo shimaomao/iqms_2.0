@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.TakeConfigMapper">
+    
+  <resultMap id="selectTakeConfigPage" type="map" >
+	    <result column="STYLEID" property="styleId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STYLENAME" property="styleName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEF" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STYLETYPE" property="styleType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <!-- 20171008 by hongxz 获取设备的分辨率 -->
+	    <result column="SCREEN_RESOLUTION" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <resultMap id="selectSettingsPage" type="map" >
+	    <result column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="KEY" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VALUE" property="value" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectQueueCtrlPage" type="map" >
+	    <result column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="KEY" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VALUE" property="value" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX" property="max" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BuzTypeMap" type="map" >
+	    <result column="TREE_PID" property="treePid" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_CODE" property="businessCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SORT_NUM" property="sortNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVELNUM" property="levelNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_PICK_UP" property="maxPickUp" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="callHead" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_EN_NAME" property="businessEnName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SHOW_EN" property="isShowEn" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SWIPE" property="isSwipe" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PICK_UP_ADVICE" property="pickUpAdvice" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectBuzTimePage" type="map" >
+	    <result column="BUS_ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="text" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STATE" property="state" javaType="String" jdbcType="VARCHAR" />
+	    <association property="attributes"  javaType="map"  resultMap="BuzTypeMap" />
+    	<collection  property="children" column="{treePid=BUS_ID,,deviceNo=DEVICE_NO}"  select="selectBuzTime" />
+  </resultMap>
+  
+  <resultMap id="getStyleMap" type="map" >
+	    <result column="STYLEVALUE" property="styleValue" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STYLEID" property="styleId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="DATETYPEID" property="styleType" javaType="int" jdbcType="VARCHAR" />
+	    <result column="SCREENRESOLUTION" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+	    <result column="COPYSTATUS" property="copyStatus" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 20171008 by hongxz  -->
+  <resultMap id="getStyleMapElement" type="map" >
+	    <result column="BUZTYPE_ID" property="buzTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_TYPE" property="orgType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_X" property="x" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_Y" property="y" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_WIDTH" property="width" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_HEIGHT" property="height" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_FAMILY" property="family" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_STYLE" property="style" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_BACKGROUNDCOLOR" property="backgroundColor" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_FONTCOLOR" property="fontColor" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_SIZE" property="size" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_ICON" property="icon" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ICON_POSITION" property="iconPosition" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_BORDERRADIUS" property="borderRadius" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUST_TOPLEFT1" property="topLeft1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_TOPRIGHT1" property="topRight1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_BOTTOMRIGHT1" property="bottomRight1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_BOTTOMLEFT1" property="bottomLeft1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_BOTTOMLEFT2" property="bottomLeft2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_BOTTOMRIGHT2" property="bottomRight2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_TOPRIGHT2" property="topRight2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BORDERRADIUS_TOPLEFT2" property="topLeft2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_SHAPE" property="shape" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_SHADOW" property="shadow" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SHADOW_H" property="shadowH" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SHADOW_V" property="shadowV" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SHADOW_BLUR" property="shadowBlur" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_SKEW" property="skew" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SKEW_H" property="skewH" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SKEW_V" property="skewV" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_ROTATE" property="rotate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROTATE_X" property="angleOfRotationX" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROTATE_Y" property="angleOfRotationY" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROTATE_Z" property="angleOfRotationZ" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_EFFECT" property="effect" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EFFECT_SCROLLAMOUNT" property="scrollAmount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EFFECT_DIRECTION" property="direction" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CHILDRENPAGEIMG" property="childrenPageImg" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CHILDRENPAGECOLOR" property="childrenPageColor" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BACKGROUNDIMAGE" property="backgroundImage" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ELEMENT_TEXT" property="text" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 20171008 by hongxz 模板信息 -->
+  <resultMap id="getStyleInfoMap" type="map" >
+	    <result column="styleid" property="styleId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="stylename" property="styleName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="styletype" property="styleType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="screen_resolution" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+	    <result column="datetype_id" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="copy_status" property="copyStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="stylePath" property="stylePath" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <!-- by hongxz 20171211 取号界面检测 -->
+  <resultMap id="selectQueuefaceCheck" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="host_name" property="hostName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ip_addr" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+	    <result column="stylename" property="styleName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="def" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="styleid" property="styleId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="datetype_id" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="copy_status" property="copyStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="screen_resolution" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <resultMap id="selectDefPage" type="map" >
+	    <result column="DEF" property="def" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!--查询所有模板--> 
+  <select id="selectTakeConfig" parameterType="map" resultMap="selectTakeConfigPage">
+  	 select * from bc_takemodel b order by b.STYLEID
+  </select>
+  
+   <!--根据设备号查询取号模板-->
+  <select id="selectTakeConfigBydeviceNo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_bydeviceno(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	   	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectTakeConfigPage}
+	    )
+	 }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="addTakeConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_add(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  
+  
+  <!--用于导航的模板保存-->
+  <select id="addTakeConfig4nav" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodelnav_add(
+	  	  	#{styleName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleId,jdbcType=VARCHAR,mode=OUT},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  
+   <!--调用存储过程进行删除记录-->
+  <select id="deleteTakeConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_delete(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+   <!-- 查询大元素列表--> 
+  <select id="selectSettings" parameterType="map" resultMap="selectSettingsPage">
+  	 select b.key,b.value from BSC_Setting b 
+  </select>
+  
+   <!--根据type查询大元素列表--> 
+  <select id="selectSettingsbyType" parameterType="map" resultMap="selectSettingsPage">
+  	 select * from BSC_Setting b where  b.type = #{type}
+  </select>
+  
+  <!--查询小元素列表--> 
+  <select id="selectQueueCtrl" parameterType="map" resultMap="selectQueueCtrlPage">
+  	 select * from bc_QueueCtrl b
+  </select>
+  
+  <!--查询默认模板--> 
+  <select id="selectDef" parameterType="map" resultMap="selectDefPage">
+  	 select b.def from bc_takemodel b where b.styleId = #{styleId}
+  </select>
+  
+  <!--查询树形业务--> 
+   <select id="selectBuzTime" parameterType="map" resultMap="selectBuzTimePage">
+	select b.bus_id ,b.device_no,b.tree_pid,b.business_code,b.sort_num,b.levelnum,b.prior_time,b.max_pick_up,
+    b.call_head,bus.business_name,bus.business_en_name,b.is_show_en,b.is_swipe,b.pick_up_advice,
+    (select case when count(1)=0 then 'open' else 'closed' end from BSC_BRANCH_BUSINESS t where t.tree_pid=b.bus_id ) state
+	from BSC_BRANCH_BUSINESS b inner join view_busmenu bus on (b.bus_id=bus.business_id) 
+	where b.tree_pid = #{treePid} and b.device_no = #{deviceNo,jdbcType=VARCHAR}
+  </select>
+  
+   <!--查询指定id的模板样式-->
+   <select id="getStyle" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_getstyle(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=getStyleMapElement},
+	  	  	#{modelStyleInfo,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=getStyleInfoMap}
+	    )
+	 }  
+  </select>
+  
+   <!--保存模板-->
+   <select id="saveConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_saveconfig(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{copyStatus,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{modeStyelId,jdbcType=VARCHAR,mode=OUT},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+  <!-- 保存取号界面元素 -->
+  <select id="saveQueueElement" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_queueelement(
+  	 		#{modelStyleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{buzTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{type,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{x,jdbcType=NUMERIC,mode=IN},
+	  	  	#{y,jdbcType=NUMERIC,mode=IN},
+	  	  	#{width,jdbcType=NUMERIC,mode=IN},
+	  	  	#{height,jdbcType=NUMERIC,mode=IN},
+	  	  	#{family,jdbcType=VARCHAR,mode=IN},
+	  	  	#{style,jdbcType=VARCHAR,mode=IN},
+	  	  	#{backgroundColor,jdbcType=VARCHAR,mode=IN},
+	  	  	#{fontColor,jdbcType=VARCHAR,mode=IN},
+	  	  	#{size,jdbcType=VARCHAR,mode=IN},
+	  	  	#{icon,jdbcType=VARCHAR,mode=IN},
+	  	  	#{iconPosition,jdbcType=VARCHAR,mode=IN},
+	  	  	#{borderRadius,jdbcType=VARCHAR,mode=IN},
+	  	  	#{topLeft1,jdbcType=NUMERIC,mode=IN},
+	  	  	#{topRight1,jdbcType=NUMERIC,mode=IN},
+	  	  	#{bottomRight1,jdbcType=NUMERIC,mode=IN},
+	  	  	#{bottomLeft1,jdbcType=NUMERIC,mode=IN},
+	  	  	#{bottomLeft2,jdbcType=NUMERIC,mode=IN},
+	  	  	#{bottomRight2,jdbcType=NUMERIC,mode=IN},
+	  	  	#{topRight2,jdbcType=NUMERIC,mode=IN},
+	  	  	#{topLeft2,jdbcType=NUMERIC,mode=IN},
+	  	  	#{shape,jdbcType=VARCHAR,mode=IN},
+	  	  	#{shadow,jdbcType=VARCHAR,mode=IN},
+	  	  	#{shadowH,jdbcType=NUMERIC,mode=IN},
+	  	  	#{shadowV,jdbcType=NUMERIC,mode=IN},
+	  	  	#{shadowBlur,jdbcType=NUMERIC,mode=IN},
+	  	  	#{skew,jdbcType=VARCHAR,mode=IN},
+	  	  	#{skewH,jdbcType=NUMERIC,mode=IN},
+	  	  	#{skewV,jdbcType=NUMERIC,mode=IN},
+	  	  	#{rotate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{angleOfRotationX,jdbcType=NUMERIC,mode=IN},
+	  	  	#{angleOfRotationY,jdbcType=NUMERIC,mode=IN},
+	  	  	#{angleOfRotationZ,jdbcType=NUMERIC,mode=IN},
+	  	  	#{effect,jdbcType=VARCHAR,mode=IN},
+	  	  	#{scrollAmount,jdbcType=NUMERIC,mode=IN},
+	  	  	#{direction,jdbcType=VARCHAR,mode=IN},
+	  	  	#{childrenPageImg,jdbcType=VARCHAR,mode=IN},
+	  	  	#{childrenPageColor,jdbcType=VARCHAR,mode=IN},
+	  	  	#{backgroundImage,jdbcType=VARCHAR,mode=IN},
+	  	  	#{text,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+   <!--查询模板样式，提供排队机下载-->
+  <select id="getStyleByDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_bydevice(
+  	 		<!-- #{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN}, -->
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=getStyleMap}
+	    )
+	 }  
+  </select> 
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyTakeConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takeconfig_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!-- by hongxz 201712011 一键检测 检测取号界面配置 -->
+  <select id="checkedQueueface" parameterType="map" resultMap="selectQueuefaceCheck">
+	  select d.org_id,d.device_no,d.host_name,d.ip_addr,
+	       tm.stylename,tm.def,tm.styleid,
+	       ms.datetype_id,ms.copy_status
+	       
+	  from bsc_device d
+	  left join bc_takemodel tm
+	    on (d.device_no = tm.device_no)
+	  left join bc_modelstyle ms
+	    on (d.screen_resolution = ms.screen_resolution and
+	       tm.styleid = ms.style_id)
+	where d.device_no = #{deviceNo,jdbcType=VARCHAR}
+  </select>
+  
+  
+   <!-- by hongxz 201712013 导航配置，查询设备信息及默认界面模板 -->
+  <select id="navQueuefaceModel" parameterType="map" resultMap="selectQueuefaceCheck">
+  select d.org_id,d.device_no,d.host_name,d.ip_addr,d.screen_resolution,
+         tm.stylename,tm.def,tm.styleid
+         
+    from bsc_device d
+    left join bc_takemodel tm
+      on (d.device_no = tm.device_no and tm.def=1)
+  where d.device_no = #{deviceNo,jdbcType=VARCHAR}
+  </select>
+  
+</mapper>

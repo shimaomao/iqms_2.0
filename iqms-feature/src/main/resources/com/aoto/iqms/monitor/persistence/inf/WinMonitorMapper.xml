@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.monitor.persistence.inf.WinMonitorMapper">
+    
+     <resultMap id="winMonitorPage" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="TRX_DATE" property="trxDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="flowNo" property="flowNo" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="BUS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_TYPE" property="busType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PDJ_LEVEL" property="pdjLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_TYPE" property="ticketType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_NO" property="ticketNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CARD_NO" property="cardNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MANAGER_NO" property="managerNO" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRX_TYPE" property="trxType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRX_STATUS" property="trxStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRINT_TIME" property="printTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_TIME" property="callTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <!-- <result column="APP" property="appValue" javaType="String" jdbcType="VARCHAR" /> -->
+	    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TELLER_NO" property="tellerNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="RECALL_COUNT" property="recallCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PAUSE_BEGINTIME" property="pauseBeginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PAUSE_ENDTIME" property="pauseEndTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_TYPE" property="callType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TRANSFER_COUNT" property="transferCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUZ_FLAG" property="buz_flag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WIN_STATUS" property="winStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" /> 
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	     <result column="APP" property="app" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageWinMonitor" parameterType="map" statementType="CALLABLE">
+  	 {call proc_winmonitor(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=winMonitorPage}
+	    )
+	  }  
+  </select>
+  
+</mapper>

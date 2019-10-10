@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.externals.persistence.inf.ResourceMapper">
+
+  <!-- 设备信息 -->
+  <resultMap id="selectBscDevice4Resouce" type="map" >
+	    <id column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <id column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <!--记录在设备表中的当前版本名称-->
+	    <result column="CURRT_VER" property="currtVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CURRT_VERNAME" property="currtVerName" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!--记录在设备表中的最新版本号和版本名称-->
+	    <result column="LAST_VER" property="lastVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LAST_VERNAME" property="lastVername" javaType="String" jdbcType="VARCHAR" />
+	    
+	    
+	    <!-- 是否最新版本 -->
+	    <result column="IS_LSTVERSION" property="islstversion" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!-- 是否在线 -->
+	    <result column="IS_ONLINE" property="isOnline" javaType="String" jdbcType="VARCHAR" />
+	    <result column="HOST_NAME" property="hostName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IP_ADDR" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAC_ADDR" property="macAddr" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <result column="PRODUCER" property="producer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="INSTALL_DATE" property="installDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ADMIN_NAME" property="adminName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ADMIN_PHONE" property="adminPhone" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ONLINE_TIME" property="onlineTime" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!--21060102 by hongxz 增加所属本地网，是否启用预约-->
+	    <result column="NET_ORGCODE" property="netOrgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORDER_FLAG" property="orderFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!-- 20171010 by hongxz 增加分辨率 -->
+	    <result column="SCREEN_RESOLUTION" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!-- 20171017 by hongxz 单机模式    条屏滚动 -->
+	    <result column="ONLINE_MODEL" property="onlineModel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TPSCROLL_FLAG" property="tpscrollflag" javaType="String" jdbcType="VARCHAR" />
+	  
+	  
+	  </resultMap>
+	  
+  
+   <!-- 客户信息查询-->
+   <resultMap id="selectCusInfo4Identity" type="map" >
+    <id column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_PDUT" property="custPdut" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_AD" property="custAd" javaType="String" jdbcType="VARCHAR" />
+    <result column="ISBANK_EFTVE" property="isBankEftve" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 流水数据查询 pad-->
+  <resultMap id="selectFlowData4Pad" type="map" >
+    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="TRX_DATE" property="trxDate" javaType="String" jdbcType="VARCHAR" />
+    <result column="FLOW_NO" property="flowNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="BUS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+    <result column="BUS_TYPE" property="busType" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_TYPE" property="custType" javaType="String" jdbcType="VARCHAR" />
+    <result column="PDJ_LEVEL" property="pdjLevel" javaType="String" jdbcType="VARCHAR" />
+    <result column="TICKET_TYPE" property="ticketType" javaType="String" jdbcType="VARCHAR" />
+    <result column="TICKET_NO" property="ticketNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+    <result column="CARD_TYPE" property="cardType" javaType="String" jdbcType="VARCHAR" />
+    <result column="CARD_NO" property="cardNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="MANAGER_NO" property="managerNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="TRX_STATUS" property="trxStatus" javaType="String" jdbcType="VARCHAR" />
+    <result column="PRINT_TIME" property="printTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="CALL_TIME" property="callTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="APP_VALUE" property="appValue" javaType="String" jdbcType="VARCHAR" />
+    <result column="WIN_NO" property="winNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="TELLER_NO" property="tellerNo" javaType="String" jdbcType="VARCHAR" />
+    <result column="RECALL_COUNT" property="recallCount" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+    <result column="WAIT_NUM" property="waitNum" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectNearOrg4Pad" type="map" >
+    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 20171017 by hongxz  -->
+  <resultMap id="selectParam4Resource" type="map" >
+    <result column="HB_INTERVAL" property="hbInterval" javaType="String" jdbcType="VARCHAR" />
+    <result column="AUTHENTICATION_TYPE" property="authenticationType" javaType="String" jdbcType="VARCHAR" />
+    <result column="FLOW_PORT" property="flowPort" javaType="String" jdbcType="VARCHAR" />
+    <result column="IDENT_PORT" property="identPort" javaType="String" jdbcType="VARCHAR" />
+    <result column="HTTP_PORT" property="httpPort" javaType="String" jdbcType="VARCHAR" />
+    <result column="APP_ROOT" property="appRoot" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  
+  <select id="nearOrg4Pad" parameterType="map" statementType="CALLABLE">
+  	  {call proc_extflownearnet(
+  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+		#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectNearOrg4Pad}
+	    )
+	  }  
+  </select>
+	  
+ <!--查询设备信息-->
+  <select id="findDeviceByCondition" parameterType="map" resultMap="selectBscDevice4Resouce">
+  	select  t.ORG_ID,o.ORG_CODE,o.ORG_NAME,
+                      t.DEVICE_NO,
+                      t.HOST_NAME,
+                      t.ORDER_FLAG,
+                      t.ip_addr,
+                      t.SCREEN_RESOLUTION,
+                      t.TPSCROLL_FLAG,
+                      t.ONLINE_MODEL  from bsc_device t left join sys_org o on (o.org_id = t.org_id) WHERE 1 = 1 
+  	<if test="ipAddr != null and ipAddr != ''">
+	       AND t.IP_ADDR = #{ipAddr,jdbcType=VARCHAR}
+	</if>
+	
+	<if test="orgCode != null and orgCode != ''">
+	       AND o.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+	</if>
+	<if test="deviceNo != null and deviceNo != ''">
+	       AND t.device_no = #{deviceNo,jdbcType=VARCHAR}
+	</if>
+	
+  </select>
+  
+  <!--查询参数信息-->
+  <select id="findParamInfo" parameterType="map" resultMap="selectParam4Resource">
+  	select t.HB_INTERVAL,
+  	       t.AUTHENTICATION_TYPE,
+  	       t.FLOW_PORT,
+  	       t.IDENT_PORT,
+  	       t.HTTP_PORT,
+  	       t.APP_ROOT from  BC_PARAMETER  t
+  </select>
+  
+  <!--查询本地客户-->
+  <select id="findCustInfoByCondition" parameterType="map" resultMap="selectCusInfo4Identity">
+  	select cus.org_id,cus.cust_id,cus.cust_name,cus.cust_level,
+  	       cus.cust_pdut,cus.cust_ad,cus.isbank_eftve from bc_cusinfo cus where 1 = 1 
+	       AND cus.cust_id = #{mediaId,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <!-- 流水数据上报 -->
+  <select id="saveFlowData" parameterType="map" statementType="CALLABLE">
+  	  {call proc_extflowdata_save(
+  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	  	#{trxDate,jdbcType=VARCHAR,mode=IN},
+  	  	#{flowNo,jdbcType=VARCHAR,mode=IN},
+  	  	#{busId,jdbcType=VARCHAR,mode=IN},
+		#{busType,jdbcType=VARCHAR,mode=IN},
+		#{custType,jdbcType=VARCHAR,mode=IN},
+		#{pdjLevel,jdbcType=VARCHAR,mode=IN},
+		#{ticketType,jdbcType=VARCHAR,mode=IN},
+		#{ticketNo,jdbcType=VARCHAR,mode=IN},
+		#{custId,jdbcType=VARCHAR,mode=IN},
+		#{cardType,jdbcType=VARCHAR,mode=IN},
+		#{cardNo,jdbcType=VARCHAR,mode=IN},
+		#{managerNo,jdbcType=VARCHAR,mode=IN},
+		#{trxType,jdbcType=VARCHAR,mode=IN},
+		#{trxStatus,jdbcType=VARCHAR,mode=IN},
+		#{printTime,jdbcType=VARCHAR,mode=IN},
+		#{callTime,jdbcType=VARCHAR,mode=IN},
+		#{beginTime,jdbcType=VARCHAR,mode=IN},
+		#{endTime,jdbcType=VARCHAR,mode=IN},
+		#{appValue,jdbcType=VARCHAR,mode=IN},
+		#{winNo,jdbcType=VARCHAR,mode=IN},
+		#{tellerNo,jdbcType=VARCHAR,mode=IN},
+		#{recallCount,jdbcType=VARCHAR,mode=IN},
+		#{pauseBeginTime,jdbcType=VARCHAR,mode=IN},
+		#{pauseEndTime,jdbcType=VARCHAR,mode=IN},
+		#{callType,jdbcType=VARCHAR,mode=IN},
+		#{transferCount,jdbcType=VARCHAR,mode=IN},
+		#{buzFlag,jdbcType=VARCHAR,mode=IN},
+		#{extend1,jdbcType=VARCHAR,mode=IN},
+		#{extend2,jdbcType=VARCHAR,mode=IN},
+		#{extend3,jdbcType=VARCHAR,mode=IN},
+		#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+   <!-- 心跳处理 -->
+  <select id="dealHeartBeat" parameterType="map" statementType="CALLABLE">
+  	  {call proc_extheartbeat(
+  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	  	#{cpuRatio,jdbcType=VARCHAR,mode=IN},
+  	  	#{memRatio,jdbcType=VARCHAR,mode=IN},
+  	  	#{diskRatio,jdbcType=VARCHAR,mode=IN},
+		#{versionSeq,jdbcType=VARCHAR,mode=IN},
+		#{thermalPrinterStatus,jdbcType=VARCHAR,mode=IN},
+		#{needlePrinterStatus,jdbcType=VARCHAR,mode=IN},
+		#{idReaderStatus,jdbcType=VARCHAR,mode=IN},
+		#{swReadStatus,jdbcType=VARCHAR,mode=IN},
+		#{icReaderStatus,jdbcType=VARCHAR,mode=IN},
+		#{barStatus,jdbcType=VARCHAR,mode=IN},
+		#{compStatus,jdbcType=VARCHAR,mode=IN},
+		#{configUpdaeFlag,jdbcType=VARCHAR,mode=OUT},
+		#{clientUpdateFlag,jdbcType=VARCHAR,mode=OUT},
+		#{clentiVerSeq,jdbcType=VARCHAR,mode=OUT},
+		#{clientVerName,jdbcType=VARCHAR,mode=OUT},
+		#{clientPatchMd5,jdbcType=VARCHAR,mode=OUT},
+		#{hearBeatInterval,jdbcType=VARCHAR,mode=OUT},
+		#{authenticationType,jdbcType=VARCHAR,mode=OUT},
+		#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!-- 柜员同步 -->
+  <select id="tellerSync" parameterType="map" statementType="CALLABLE">
+  	  {call proc_tellersync(
+  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+  	  	#{workId,jdbcType=VARCHAR,mode=IN},
+  	  	#{name,jdbcType=VARCHAR,mode=IN},
+  	  	#{sex,jdbcType=VARCHAR,mode=IN},
+  	  	#{status,jdbcType=VARCHAR,mode=IN},
+		#{callerPwd,jdbcType=VARCHAR,mode=IN},
+		#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!-- 版本更新确认 -->
+  <select id="patchDlConfirm" parameterType="map" statementType="CALLABLE">
+  	  {call proc_patchDlConfirm(
+  	  	#{deviceId,jdbcType=VARCHAR,mode=IN},
+  	  	#{versionSeq,jdbcType=VARCHAR,mode=IN},
+		#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  <!-- 配置更新确认 -->
+  <select id="configConfirm" parameterType="map" statementType="CALLABLE">
+  	  {call proc_configConfirm(
+  	  	#{deviceId,jdbcType=VARCHAR,mode=IN},
+		#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+   <!-- 流水数据查询 pad -->
+  <select id="flowData4Pad" parameterType="map" statementType="CALLABLE">
+  	  {call proc_extflowdatapad(
+  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+  	  	#{showCount,jdbcType=VARCHAR,mode=IN},
+		#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectFlowData4Pad}
+	    )
+	  }  
+  </select>
+  
+  <!-- 设备配置文件下发状态更新 -->
+  <update id="updateDeviceConfigFlag" parameterType="map">
+    UPDATE BSC_DEVICE SET 
+    EXTEND1 = #{updateFlag,jdbcType=VARCHAR}
+    WHERE DEVICE_NO = #{deviceId,jdbcType=VARCHAR}
+  </update>
+  
+	
+</mapper>

@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/resources/conf/paramters.properties=UTF-8
+encoding//src/main/resources/conf/proxool.properties=UTF-8
+encoding//src/main/resources/config.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/views/basicconfig/custtype/list.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/shared/bootstrapcontentfoot.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/shared/bootstrapcontentui.jsp=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8

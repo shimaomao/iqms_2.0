@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.report.persistence.inf.AbandonRateReportMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectAbandonRateReportByPageMap" type="map" >
+	    <id column="rnum" property="rnum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_TYPE" property="busType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TOTAL_COUNT" property="totalCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TOTAL_WAIT" property="totalWait" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TOTAL_DEAL" property="totalDeal" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TOTAL_ABANDON" property="totalAbandon" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ABANDON_RATE" property="abandonRate" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="procPageARReport" parameterType="map" statementType="CALLABLE">
+	   {call proc_report_abandonrate(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectAbandonRateReportByPageMap}
+	    )
+	  }  
+  </select>
+  
+   <!--调用存储过程图形数据--> 
+  <select id="procARReportGraphic" parameterType="map" statementType="CALLABLE">
+  	  {call proc_report_abandonrategrph(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectAbandonRateReportByPageMap}
+	    )
+	  }   
+  </select>
+  
+</mapper>

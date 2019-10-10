@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.BusinessManageMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectBusinessManageByPageMap" type="map" >
+	    <id column="BUSINESS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_ENAME" property="businessEName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="AVERAGE_TIME" property="averageTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORDER_FLAG" property="orderFlag" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageBusManage" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcbusmanage_page(
+	  	  	#{businessName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBusinessManageByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询--> 
+  <select id="callSelectBusManage" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcbusmanage_all(
+  			#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBusinessManageByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBusManage" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcbusmanage_add(
+	  	  	#{businessName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessEName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{averageTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBusManage" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcbusmanage_edit(
+	  	    #{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessEName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{averageTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteBusManage" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcbusmanage_remove(
+  	        #{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+   <!--查询业务类型-->
+  <select id="findBusManageByConditon" parameterType="map" resultMap="selectBusManageByPageMap">
+  	 select * from bc_businessmanage 
+  </select>
+  
+  <!-- 分页查询输出结果 -->
+  <resultMap id="selectBusManageByPageMap" type="map" >
+    <id column="BUSINESS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+    <result column="AVERAGE_TIME" property="averageTime" javaType="String" jdbcType="VARCHAR" />
+    <result column="ORDER_FLAG" property="orderFlag" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!--根据id查询数据-->
+  <select id="findBusManageById" parameterType="map" resultMap="selectBusinessManageByPageMap">
+  	 select * from bc_businessmanage where business_id = #{businessId}
+  </select>
+	
+</mapper>

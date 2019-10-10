@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.NearMapper">
+    
+     <resultMap id="nearPage" type="map" >
+	    <id column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID1" property="orgId1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID2" property="orgId2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID3" property="orgId3" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID4" property="orgId4" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID5" property="orgId5" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID6" property="orgId6" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="sysOrg" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="nears" type="map" >
+	    <result column="totalGetNums" property="totalGetNums" javaType="int" jdbcType="VARCHAR" />
+	    <result column="totalWait" property="totalWait" javaType="int" jdbcType="VARCHAR" />
+	    <result column="totalFinished" property="totalFinished" javaType="int" jdbcType="VARCHAR" />
+	    <result column="org_name" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="totalDeal" property="totalDeal" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callNear" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcnear_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectParameterByMap}
+	    )
+	  }
+  </select>
+  <!--调用存储过程进行增加记录-->
+  <select id="callSaveOrUpdateNear" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcnear_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId4,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId5,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId6,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程查询SYS_ORG--> 
+  <select id="callOrg" parameterType="map" statementType="CALLABLE">
+  	 {call proc_sysorg_query(
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=sysOrg}
+	    )
+	  }
+  </select>
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callRemoveNear" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcnear_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <select id="callNearsQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_nears_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=nears}
+	    )
+	  }
+  </select>
+</mapper>

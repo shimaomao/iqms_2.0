@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.AdPublishMapper">
+    
+  <resultMap id="selectAdsByDeviceNoMap" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="adv_type" property="advType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="adv_content" property="advContent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ip_addr" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  <resultMap id="ipMap" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IP_ADDR" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+   
+  
+  <!--查询广告--> 
+  <select id="selectAdsByDeviceNo" parameterType="map" statementType="CALLABLE" >
+  	   {call proc_ads_select(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectAdsByDeviceNoMap}
+	    )
+	   }  
+  </select>
+  
+   <!--保存广告--> 
+  <select id="saveAndSend" parameterType="map" statementType="CALLABLE" >
+  	   {call proc_ads_save(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	
+	  	  	#{advType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{advContent,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	   }  
+  </select>
+  <select id="findByPraendId" parameterType="map" resultMap="ipMap">
+  	select t.org_id,d.device_no,d.ip_addr from (select s.org_id from sys_org s  
+	connect by prior s.org_id = s.parent_id
+ 	start with s.org_id = #{orgId,jdbcType=VARCHAR})t inner join bsc_device d on (t.org_id = d.org_id)
+  </select>
+  
+</mapper>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.BcMenuMapper">
+    
+     <resultMap id="bcMenuPage" type="map" >
+	    <id column="MENU_ID" property="menuId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MENU_NAME" property="menuName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MENU_ENNAME" property="menuEnName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="expend1" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageMenu" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcmenu_page(
+	  	  	#{menuName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=bcMenuPage}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertMenu" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcmenu_add(
+	  	  	#{menuName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{menuEnName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+<!--调用存储过程进行记录更新-->
+  <select id="callUpdteBcMenu" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcmenu_edit(
+	  	  	#{menuId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{menuName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{menuEnName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{expend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteMenu" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcmenu_remove(
+  	        #{menuId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--执行存储过程查询菜单是否有网点在使用-->
+   <select id="callMenuQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcmenu_query(
+  	        #{menuId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=bcMenuPage}
+	    )
+	  }  
+  </select>
+</mapper>

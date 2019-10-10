@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.OrderConfigMapper">
+    
+     <resultMap id="orderRangePage" type="map" >
+	    <id column="id" property="orderId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="org_code" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="begin_time" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="end_time" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ordercount" property="orderCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="org_name" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="host_name" property="hostName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="total" property="total" javaType="String" jdbcType="VARCHAR" />
+	    <result column="order_count" property="order_count" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="orderBusiness" type="map" >
+	 	<result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="bus_id" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="business_code" property="busCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="business_name" property="busName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="serviceshowtime" property="serviceShowTime" javaType="String" jdbcType="VARCHAR" />
+	 </resultMap>
+	 
+	 <resultMap id="selectOrderInfoByPageMap" type="map" >
+	 	<result column="order_id" property="orderId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="org_code" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="act_no" property="actNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORDER_DATE" property="orderDate" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <result column="ORDER_BUSID" property="orderBusId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORDER_BUSCODE" property="orderBusCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="dev_no" property="devNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="cert_type" property="certType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="cert_content" property="certContent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="order_time" property="orderTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="RANGE_BEGIN" property="rangeBegin" javaType="String" jdbcType="VARCHAR" />
+	    <result column="RANGE_END" property="rangeEnd" javaType="String" jdbcType="VARCHAR" />
+	    <result column="order_status" property="orderStatus" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ticket_no" property="ticketNo" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageOrderConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderconfig_page(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=orderRangePage}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertOrderConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderconfig_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{beginTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderCount,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+<!--调用存储过程进行记录更新-->
+  <select id="callUpdteOrderConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderconfig_edit(
+	  	  	#{orderId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{beginTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderCount,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  <!-- 调用存储过程进行记录删除 -->
+   <select id="callDeleteOrderConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderconfig_remove(
+  	        #{orderId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyOrderConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderconfig_copy(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <select id="findOrderRange" parameterType="map" resultMap="orderRangePage">
+	select r.org_code,
+		r.device_no,
+        r.begin_time,
+        r.end_time,
+        r.ordercount total ,
+        (select count(1) from order_info oi  
+          where oi.range_begin = r.begin_time
+            and oi.range_end = r.end_time
+            and oi.order_date = #{orderDate,jdbcType=VARCHAR}
+            and oi.order_status != '2'  
+            and oi.org_code = r.org_code
+        )  order_count
+    from order_range r  where  1=1 
+	   
+	   <if test="deviceNo != null and deviceNo != ''">
+	       and r.device_no = #{deviceNo,jdbcType=VARCHAR}
+	   </if>
+	
+  </select>
+  
+  <!--调用存储过程进行查询所有业务 --> 
+  <select id="findBusiness" parameterType="map" statementType="CALLABLE">
+  {call proc_order_business(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=orderBusiness}
+	    )
+	 }
+  </select>
+  
+  <!--查询是否能够进行预约-->
+  <select id="callExistBook" parameterType="map" statementType="CALLABLE">
+  	 {call proc_existbookrecord(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{devNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certContent,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderDt,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rangeBegin,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rangeEnd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--查询激活码是否可用-->
+  <select id="callExistActNo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_existActNo(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{actNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderDt,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertOrderInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_insert_orderinfo(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{devNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{actNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderBusId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderBusCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certContent,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderDt,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rangeBegin,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rangeEnd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--查询激活码的信息-->
+  <select id="callQueryActNoStatus" parameterType="map" resultMap="selectOrderInfoByPageMap">
+	select ORG_CODE,
+	       DEV_NO,
+	       ACT_NO,
+	       order_busid,
+	       order_buscode,
+	       CERT_TYPE,
+	       CERT_CONTENT,
+	       ORDER_DATE,
+	       ORDER_TIME,
+			RANGE_BEGIN,
+			RANGE_END,
+			ORDER_STATUS
+	  from ORDER_INFO t  where 1=1
+	   
+	   
+	   <if test="orgCode != null and orgCode != ''">
+	      and t.org_code =#{orgCode,jdbcType=VARCHAR}
+	   </if>
+	   
+	   <if test="actNo != null and actNo != ''">
+	      and t.act_no = #{actNo,jdbcType=VARCHAR}
+	   </if>
+	   
+	   <if test="orderDt != null and orderDt != ''">
+	      and t.ORDER_DATE = #{orderDt,jdbcType=VARCHAR}
+	   </if>
+	   
+	   <if test="certType != null and certType != ''">
+	      and t.CERT_TYPE = #{certType,jdbcType=VARCHAR}
+	   </if>
+	   
+	   <if test="certContent != null and certContent != ''">
+	      and t.CERT_CONTENT = #{certContent,jdbcType=VARCHAR}
+	   </if>
+  </select>
+  
+   <!--预约取消-->
+   <select id="callBookCancel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bookCancel(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{actNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderDt,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certContent,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询所有业务 --> 
+  <select id="callQueryOrderInfo" parameterType="map" statementType="CALLABLE">
+  {call proc_orderactive_info(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{certContent,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectOrderInfoByPageMap}
+	    )
+	 }
+  </select>
+  
+  <!--修改激活码状态-->
+   <select id="callUpdateOrderInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_orderinfo_edit(
+	  	  	#{orderId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ticketNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+</mapper>

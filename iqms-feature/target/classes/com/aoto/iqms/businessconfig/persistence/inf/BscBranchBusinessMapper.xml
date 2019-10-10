@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscBranchBusinessMapper">
+    
+	  
+	  <!-- 菜单业务组织树 -->
+    <resultMap id="menuBusinessMap" type="map" >
+	    <result column="TREE_ID" property="treeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TREE_PID" property="treePid" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BRANCH_NAME" property="branchName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BRANCHENAME" property="branchEName" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+	<!-- 查询BscBranchBusiness表输出结果 -->
+    <resultMap id="selectBscBranchBusinessByMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BRANCHNAME" property="branchName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESSENNAME" property="businessEnName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_TYPE" property="businessType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TREE_PID" property="treePid" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TREE_ID" property="treeId" javaType="String" jdbcType="VARCHAR" />
+	    <!-- <result column="BUSINESS_EN_NAME" property="businessEnName" javaType="String" jdbcType="VARCHAR" /> -->
+	    <result column="BUSINESS_CODE" property="businessCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="callHead" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SHOW_EN" property="isShowEn" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SWIPE" property="isSwipe" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PICK_UP_ADVICE" property="pickUpAdvice" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_PICK_UP" property="maxPickUp" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SORT_NUM" property="sortNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- 查询BscBranchBusiness表输出结果 -->
+    <resultMap id="buzTypeMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_TYPE" property="buzFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_ID" property="buzTypeId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="TREE_PID" property="parentId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="TREE_ID" property="treeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_CODE" property="buzCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_PICK_UP" property="topLimit" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="prefix" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BRANCHNAME" property="cnname" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EN_NAME" property="enname" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SHOW_EN" property="enShowed" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SWIPE" property="swiped" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PICK_UP_ADVICE" property="message" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SORT_NUM" property="sortNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVELNUM" property="levelNum" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <resultMap id="busysMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUS_ID" property="busType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_CODE" property="busCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="business_name" property="busName" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+ 
+ <!-- 返回节点层级 -->
+    <resultMap id="levelMap" type="map" >
+    	<!-- <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TREE_ID" property="treeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TREE_PID" property="treePid" javaType="String" jdbcType="VARCHAR" /> -->
+	    <result column="LEV" property="level" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+  <!--调用存储过程查询菜单和业务-->
+   <select id="callTreeMenuBusiness" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tree_menu_business(
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=menuBusinessMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询--> 
+  <select id="callBranchBusiness" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscbranchbusiness_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{treeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscBranchBusinessByMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBscBranchBus" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscbranchbus_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{treeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{treePid,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessEnName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callHead,jdbcType=VARCHAR,mode=IN},
+	  	  	#{priorTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isSwipe,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isShowEn,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pickUpAdvice,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxPickUp,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortNum,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{busId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{levelNum,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBscBranchBus" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscbranchbus_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{menuId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessEnName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callHead,jdbcType=VARCHAR,mode=IN},
+	  	  	#{priorTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isSwipe,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isShowEN,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pickUpAdvice,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxPickUp,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortNum,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteBscBranchBus" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscbranchbus_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	        #{treeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyBscBranchBus" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscbranchbus_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询buzType--> 
+  <select id="callBuzType" parameterType="map" statementType="CALLABLE">
+  {call proc_buztype_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=buzTypeMap}
+	    )
+	 }
+  </select>
+  
+  <!--调用存储过程进行查询buzType--> 
+  <select id="callBuz" parameterType="map" statementType="CALLABLE">
+  {call proc_bscbranchbus_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscBranchBusinessByMap}
+	    )
+	 }
+  </select>
+  
+  <!--调用存储过程进行查询节点层级--> 
+  <select id="callLevel" parameterType="map" statementType="CALLABLE">
+  {call proc_bscbranchbus_level(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{treePid,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=levelMap}
+	    )
+	 }
+  </select>
+  <!--调用存储过程进行查询所有业务 --> 
+  <select id="callBusiness" parameterType="map" statementType="CALLABLE">
+  {call proc_bscbranchbus_buz(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscBranchBusinessByMap}
+	    )
+	 }
+  </select>
+  
+  <!--调用存储过程进行查询所有业务 --> 
+  <select id="findBusysForHallMarket" parameterType="map" statementType="CALLABLE">
+  {call proc_findBusys(
+  	 		#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=busysMap}
+	    )
+	 }
+  </select>
+</mapper>

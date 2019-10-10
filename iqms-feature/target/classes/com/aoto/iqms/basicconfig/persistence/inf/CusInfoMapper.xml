@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.CusInfoMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectCusInfoByPageMap" type="map" >
+	    <id column="CUST_ID" property="custId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_NAME" property="custName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUS_NAME" property="cusName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_PDUT" property="custPdut" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_AD" property="custAd" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ISBANK_EFTVE" property="isBankEftve" javaType="String" jdbcType="VARCHAR" />
+	     
+	  </resultMap>
+ 
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageCusInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusinfo_page(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectCusInfoByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertCusInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusinfo_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custPdut,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custAd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isBankEftve,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行批量增加记录-->
+  <select id="callInsertCusInfoByFile" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusinfo_add_file(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custPdut,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custAd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isBankEftve,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteCusInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusinfo_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custPdut,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custAd,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isBankEftve,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteCusInfo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bccusinfo_remove(
+  	        #{custId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+	
+</mapper>

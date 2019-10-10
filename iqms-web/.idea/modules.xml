@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../framework-commons/framework-commons.iml" filepath="$PROJECT_DIR$/../framework-commons/framework-commons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework-logging/framework-logging.iml" filepath="$PROJECT_DIR$/../framework-logging/framework-logging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework-parent/framework-parent.iml" filepath="$PROJECT_DIR$/../framework-parent/framework-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework-security/framework-security.iml" filepath="$PROJECT_DIR$/../framework-security/framework-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework-web/framework-web.iml" filepath="$PROJECT_DIR$/../framework-web/framework-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../iqms-feature/iqms-feature.iml" filepath="$PROJECT_DIR$/../iqms-feature/iqms-feature.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../iqms-parent/iqms-parent.iml" filepath="$PROJECT_DIR$/../iqms-parent/iqms-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/iqms-web.iml" filepath="$PROJECT_DIR$/iqms-web.iml" />
+    </modules>
+  </component>
+</project>

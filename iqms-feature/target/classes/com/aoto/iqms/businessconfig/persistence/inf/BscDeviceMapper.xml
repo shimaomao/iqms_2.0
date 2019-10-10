@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscDeviceMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectBscDeviceByPageMap" type="map" >
+	    <id column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <id column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <!--记录在设备表中的当前版本名称-->
+	    <result column="CURRT_VER" property="currtVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CURRT_VERNAME" property="currtVerName" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!--记录在设备表中的最新版本号和版本名称-->
+	    <result column="LAST_VER" property="lastVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LAST_VERNAME" property="lastVername" javaType="String" jdbcType="VARCHAR" />
+	    
+	    
+	    <!-- 是否最新版本 -->
+	    <result column="IS_LSTVERSION" property="islstversion" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!-- 是否在线 -->
+	    <result column="IS_ONLINE" property="isOnline" javaType="String" jdbcType="VARCHAR" />
+	    <result column="HOST_NAME" property="hostName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IP_ADDR" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAC_ADDR" property="macAddr" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <result column="PRODUCER" property="producer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="INSTALL_DATE" property="installDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ADMIN_NAME" property="adminName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ADMIN_PHONE" property="adminPhone" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ONLINE_TIME" property="onlineTime" javaType="String" jdbcType="VARCHAR" />
+	    
+	    <!--21060102 by hongxz 增加所属本地网，是否启用预约-->
+	    <result column="NET_ORGCODE" property="netOrgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORDER_FLAG" property="orderFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SCREEN_RESOLUTION" property="screenResolution" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ONLINE_MODEL" property="onlineModel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TPSCROLL_FLAG" property="tpscrollFlag" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- 机构设备机构树 -->
+    <resultMap id="orgDeviceMap" type="map" >
+	    <result column="ID" property="cId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICENO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PID" property="pId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVNAME" property="devName" javaType="String" jdbcType="VARCHAR" />
+	    <!--记录在设备表中的当前版本名称-->
+	    <result column="CURRTVER" property="currtVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CURRTNAME" property="currtName" javaType="String" jdbcType="VARCHAR" />
+	    <!--记录在设备表中的最新版本号和版本名称-->
+	    <result column="LASTVER" property="lastVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LASTNAME" property="lastName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TKTTMPID" property="tktTmpId" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- 查询数量 -->
+	  <resultMap id="selectCountsMap" type="map" >
+	    <id column="DEV_COUNT" property="devCount" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- 查询能使用版本更新的树 -->
+	  <resultMap id="selectBscDevice4Tree" type="map" >
+	    <result column="id" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_No" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="p_id" property="pid" javaType="String" jdbcType="VARCHAR" />
+	    <result column="dev_Name" property="devName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="is_dev" property="isDev" javaType="String" jdbcType="VARCHAR" />
+	    <result column="currt_ver" property="lastVer" javaType="String" jdbcType="VARCHAR" />
+	    <result column="currt_name" property="currtName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="last_name" property="lastName" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+ 	  <!-- 查询IP -->
+ 	  <resultMap id="ipMap" type="map" >
+	    <id column="IP_ADDR" property="ipAddr" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageBscDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscdevice_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{islstversion,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscDeviceByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBscDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscdevice_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{hostName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ipAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{macAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{currtVer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{producer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{installDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminPhone,jdbcType=VARCHAR,mode=IN},
+	  	  	
+	  	  	#{netOrgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{onlineModel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tpscrollFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertNavDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscdevice_navadd(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{hostName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ipAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{macAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{currtVer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{producer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{installDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminPhone,jdbcType=VARCHAR,mode=IN},
+	  	  	
+	  	  	#{netOrgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{onlineModel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tpscrollFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBscDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscdevice_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{hostName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ipAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{macAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{currtVer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{producer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{installDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminPhone,jdbcType=VARCHAR,mode=IN},
+	  	  	#{netOrgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orderFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{onlineModel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{tpscrollFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  
+  
+   <!--2015-11-25 by hongxz 通过设备号更新当前设备的版本号-->
+  <select id="callUpdateDeviceCurrtVersion" parameterType="map" statementType="CALLABLE">
+  	 {call proc_updatedeviceCurrVersion(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{swVer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBscDeviceForAutoUp" parameterType="map" statementType="CALLABLE">
+  	 {call proc_updatedeviceforautoup(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isServer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{hostName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ipAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{macAddr,jdbcType=VARCHAR,mode=IN},
+	  	  	#{swVer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{producer,jdbcType=VARCHAR,mode=IN},
+	  	  	#{installDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{adminPhone,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteBscDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscdevice_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  <select id="findBscDeviceByConditon" parameterType="map" resultMap="selectBscDeviceByPageMap">
+	select t.ORG_CODE,
+	       og.org_name,
+	       DEVICE_NO,
+	       IS_SERVER,
+	       HOST_NAME,
+	       IP_ADDR,
+	       MAC_ADDR,
+	       SW_VER,
+	       VERSION_NAME,
+	       LAST_VER,
+	       LAST_VERNAME, 
+	       PRODUCER,
+	       to_char(INSTALL_DATE, 'yyyy-MM-dd') INSTALL_DATE,
+	       ADMIN_NAME,
+	       ADMIN_PHONE,
+	       to_char(ONLINE_TIME, 'yyyy-MM-dd hh24:mi:ss') ONLINE_TIME,
+	       online_model,
+	       tpscroll_flag,
+	       screen_resolution 
+	  from DEVICE_INFO t
+	   inner join (select * from sys_org o where o.deleted=0  start with 
+	   
+	   <if test="orgId != null and orgId != ''">
+	      o.org_id =#{orgId,jdbcType=VARCHAR}
+	   </if>
+	   
+	    <if test="orgId == null or orgId == ''">
+	      o.org_id =1
+	   </if>
+	  
+  	   connect by prior o.org_id = o.parent_id) og on (t.org_code=og.org_code) 
+	 WHERE 1 = 1
+
+  	
+	
+	<if test="ipAddr != null and ipAddr != ''">
+	       AND t.IP_ADDR = #{ipAddr,jdbcType=VARCHAR}
+	</if>
+	
+	<if test="deviceNo != null and deviceNo != ''">
+	       AND t.DEVICE_NO = #{deviceNo,jdbcType=VARCHAR}
+	</if>
+	
+	<!--如果有版本号，则查询最新版本号低于此版本号的设备，或者最新本号为null的设备-->
+	<if test="swVer != null and swVer != ''">
+	       AND (t.LAST_VER &lt; #{swVer,jdbcType=NUMERIC} or  t.LAST_VER is null)
+	</if>
+	
+  </select>
+  
+  <!--201606007 by hongxz 根据机构编码查询这个机构设备编号的最大值-->
+  <select id="findDevCount" parameterType="map" resultMap="selectCountsMap">
+	select case when count(1)=0 then 0 else  max(to_number(substr(t.device_no,length(t.org_code)+1,2))) end DEV_COUNT
+	  from DEVICE_INFO t where t.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <!--20160113 by hongxz 用于预约， 查询提供预约的排队机-->
+  
+  <select id="findBscDeviceForOrder" parameterType="map" resultMap="selectBscDeviceByPageMap">
+	select t.ORG_CODE,
+	       og.org_name,
+	       DEVICE_NO,
+	       IS_SERVER,
+	       HOST_NAME,
+	       IP_ADDR,
+	       MAC_ADDR,
+	       SW_VER,
+	       VERSION_NAME,
+	       LAST_VER,
+	       LAST_VERNAME, 
+	       PRODUCER,
+	       to_char(INSTALL_DATE, 'yyyy-MM-dd') INSTALL_DATE,
+	       ADMIN_NAME,
+	       ADMIN_PHONE,
+	       online_model,
+	       tpscroll_flag,
+	       screen_resolution,
+	       to_char(ONLINE_TIME, 'yyyy-MM-dd hh24:mi:ss') ONLINE_TIME
+	  from DEVICE_INFO t
+	   inner join (select * from sys_org o where o.deleted=0  start with 
+	   
+	   <if test="orgId != null and orgId != ''">
+	      o.org_id =#{orgId,jdbcType=VARCHAR}
+	   </if>
+	   
+	    <if test="orgId == null or orgId == ''">
+	      o.org_id =1
+	   </if>
+	  
+  	   connect by prior o.org_id = o.parent_id) og on (t.org_code=og.org_code) 
+	 WHERE 1 = 1 
+
+  	
+	
+	<if test="orgCode != null and orgCode != ''">
+	       AND t.ORG_CODE = #{orgCode,jdbcType=VARCHAR}
+	</if>
+	
+	<if test="orderFlag != null and orderFlag != ''">
+	       AND t.ORDER_FLAG = #{orderFlag,jdbcType=VARCHAR}
+	</if>
+	
+  </select>
+  
+  <!--查询能用安装此版本的应用树-->
+  <select id="findBscDevice4PatchTree" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tree_devicepatch(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscDevice4Tree}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程查询机构和设备节点 生成机构树-->
+   <select id="ztreeOrgDevice" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tree_orgdevice(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=orgDeviceMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程查询机构和设备节点 生成机构树-->
+   <select id="ztreeFastCopy" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tree_fastcopy(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=orgDeviceMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程包含默认号票模板的设备节点 生成机构树-->
+   <select id="ztreeForTicket" parameterType="map" statementType="CALLABLE">
+  	 {call proc_tree_forticket(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=orgDeviceMap}
+	    )
+	  }  
+  </select>
+  <!--查询当前序列值-->
+   <select id="findDeviceNo" parameterType="map" resultMap="selectCountsMap">
+	select SEQ_DEVICE.NEXTVAL DEV_COUNT  from dual 
+  </select>
+  <!-- 设备配置文件下发状态更新 -->
+  <update id="updateDeviceConfigFlag" parameterType="map">
+    UPDATE BSC_DEVICE SET 
+    EXTEND1 = #{updateFlag,jdbcType=VARCHAR}
+    WHERE DEVICE_NO = #{deviceId,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="callBscDevice" parameterType="map" resultMap="ipMap">
+	select t.IP_ADDR from bsc_device t
+	 WHERE t.DEVICE_NO = #{deviceNo,jdbcType=VARCHAR}
+  </select>
+  
+  
+  <select id="findByDeviceNo" parameterType="map" resultMap="selectBscDeviceByPageMap">
+	select t.org_id,
+		  s.org_name,
+		  t.device_no,
+		  t.host_name,
+		  t.ip_addr,
+		  t.mac_addr,
+		  t.producer,
+		  t.install_date,
+		  t.admin_name,
+		  t.admin_phone,
+		  t.online_time,
+		  t.currt_ver,
+		  t.currt_vername,
+		  t.last_ver,
+		  t.last_vername,
+		  t.net_orgcode,
+		  t.order_flag,
+		  t.extend1,
+		  t.extend2,
+		  t.extend3,
+		  t.screen_resolution,
+		  t.online_model,
+		  t.tpscroll_flag  
+	  from bsc_device t left join sys_org s on t.org_id = s.org_id 
+	  where t.device_no =#{deviceNo,jdbcType=VARCHAR}
+  </select>
+  <!-- 查询机构下可预约的排队机 -->
+  <select id="findDeviceForOrder" parameterType="map" resultMap="selectBscDeviceByPageMap">
+	select t.org_id,
+		   t.device_no,
+	       og.org_name,
+	       t.HOST_NAME 
+	       <!-- IP_ADDR,
+	       MAC_ADDR,
+	       SW_VER,
+	       VERSION_NAME,
+	       LAST_VER,
+	       LAST_VERNAME, 
+	       PRODUCER, 
+	       to_char(INSTALL_DATE, 'yyyy-MM-dd') INSTALL_DATE,
+	       ADMIN_NAME,
+	       ADMIN_PHONE,
+	       to_char(ONLINE_TIME, 'yyyy-MM-dd hh24:mi:ss') ONLINE_TIME --> 
+	  from bsc_device t
+	   inner join (select * from sys_org o where o.deleted=0  start with 
+	   
+	   <if test="orgId != null and orgId != ''">
+	      o.org_id =#{orgId,jdbcType=VARCHAR}
+	   </if>
+	   
+	    <if test="orgId == null or orgId == ''">
+	      o.org_id =1
+	   </if>
+	  
+  	   connect by prior o.org_id = o.parent_id) og on (t.org_id=og.org_id) 
+	 WHERE t.org_id = (select org.org_id from sys_org org where org.org_code=#{orgCode,jdbcType=VARCHAR})
+	<if test="orderFlag != null and orderFlag != ''">
+	       AND t.ORDER_FLAG = #{orderFlag,jdbcType=VARCHAR}
+	</if>
+	
+  </select>
+</mapper>

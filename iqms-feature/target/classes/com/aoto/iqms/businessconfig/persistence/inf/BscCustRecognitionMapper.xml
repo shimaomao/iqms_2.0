@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscCustRecognitionMapper">
+    
+    <!-- 查询输出结果 -->
+    <resultMap id="BscCustRecognitionMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROW_ID" property="rowId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATE_TYPE" property="dateType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="START_POSITION" property="startPosition" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MATE_LENGTH" property="mateLength" javaType="String" jdbcType="VARCHAR" />
+	    <result column="START_MATE_CODE" property="startMateCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_MATE_CODE" property="endMateCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="RECOGNITION_TYPE" property="recognitionType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- custRecs.json -->
+    <resultMap id="custRecsMap" type="map" >
+	    <result column="DATE_TYPE" property="dateTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="START_POSITION" property="startIndex" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MATE_LENGTH" property="len" javaType="String" jdbcType="VARCHAR" />
+	    <result column="START_MATE_CODE" property="matchingMin" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_MATE_CODE" property="matchingMax" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="levelId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="saveStatus" property="saveStatus" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+  <!--调用存储过程进行查询--> 
+  <select id="callCustRecognitionQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustrecognition_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=BscCustRecognitionMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertCustRecognition" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustrecognition_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rowId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startPosition,jdbcType=VARCHAR,mode=IN},
+	  	  	#{mateLength,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startMateCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endMateCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	<!-- #{recognitionType,jdbcType=VARCHAR,mode=IN}, -->
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+	<!--调用存储过程进行记录删除-->
+   <select id="callDeleteCustRecognition" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustrecognition_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyCustRecognition" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustrecognition_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询--> 
+  <select id="callCustRecs" parameterType="map" statementType="CALLABLE">
+  {call proc_custrecs_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=custRecsMap}
+	    )
+	 }
+  </select>
+  
+</mapper>

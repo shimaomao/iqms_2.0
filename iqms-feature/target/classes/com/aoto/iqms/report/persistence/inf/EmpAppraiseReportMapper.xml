@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.report.persistence.inf.EmpAppraiseReportMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectEmpAppraiseReportByPageMap" type="map" >
+	    <id column="rnum" property="rnum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WORK_ID" property="workId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="WORK_NAME" property="workName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="app_content" property="appContent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="app_soso" property="appSoso" javaType="String" jdbcType="VARCHAR" />
+	    <result column="app_discontent" property="appDiscontent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="app_nonapp" property="appNonapp" javaType="String" jdbcType="VARCHAR" />
+	    <result column="rate_content" property="rateContent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="rate_soso" property="rateSoso" javaType="String" jdbcType="VARCHAR" />
+	    <result column="rate_discontent" property="rateDiscontent" javaType="String" jdbcType="VARCHAR" />
+	    <result column="rate_nonapp" property="rateNonapp" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="procPageEAReport" parameterType="map" statementType="CALLABLE">
+  	 {call proc_report_empappraise(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{workName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectEmpAppraiseReportByPageMap}
+	    )
+	  }  
+  </select>
+  
+</mapper>

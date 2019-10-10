@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.TakeModelMapper">
+    
+  <resultMap id="selectTakeModelPage" type="map" >
+	    <result column="STYLEID" property="styleId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STYLENAME" property="styleName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEF" property="def" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STYLETYPE" property="styleType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>  
+  
+  <resultMap id="selectSettingsPage" type="map" >
+	    <result column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="KEY" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VALUE" property="value" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectQueueCtrlPage" type="map" >
+	    <result column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="KEY" property="key" javaType="String" jdbcType="VARCHAR" />
+	    <result column="VALUE" property="value" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TYPE" property="type" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX" property="max" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BuzTypeMap" type="map" >
+	    <result column="TREE_PID" property="treePid" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_CODE" property="businessCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="SORT_NUM" property="sortNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVELNUM" property="levelNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_PICK_UP" property="maxPickUp" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="callHead" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_EN_NAME" property="businessEnName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SHOW_EN" property="isShowEn" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_SWIPE" property="isSwipe" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PICK_UP_ADVICE" property="pickUpAdvice" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectBuzTimePage" type="map" >
+	    <result column="BUS_ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="text" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STATE" property="state" javaType="String" jdbcType="VARCHAR" />
+	    <association property="attributes"  javaType="map"  resultMap="BuzTypeMap" />
+    	<collection  property="children" column="{treePid=BUS_ID}"  select="selectBuzTime" />
+  </resultMap>
+  
+  <resultMap id="getStylePage" type="map" >
+	    <result column="STYLEVALUE" property="styleValue" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="selectDefPage" type="map" >
+	    <result column="DEF" property="def" javaType="String" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <!--查询所有模板--> 
+  <select id="selectTakeModel" parameterType="map" resultMap="selectTakeModelPage">
+  	 select * from bc_takemodel b order by b.STYLEID
+  </select>
+  
+   <!--根据设备号查询取号模板-->
+  <select id="selectTakeModelBydeviceNo" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodel_bydeviceno(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	   	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectTakeModelPage}
+	    )
+	 }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="addTakeModel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodel_add(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+   <!--调用存储过程进行删除记录-->
+  <select id="deleteTakeModel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodel_delete(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+   <!-- 查询大元素列表--> 
+  <select id="selectSettings" parameterType="map" resultMap="selectSettingsPage">
+  	 select b.key,b.value from BSC_Setting b 
+  </select>
+  
+   <!--根据type查询大元素列表--> 
+  <select id="selectSettingsbyType" parameterType="map" resultMap="selectSettingsPage">
+  	 select * from BSC_Setting b where  b.type = #{type}
+  </select>
+  
+  <!--查询小元素列表--> 
+  <select id="selectQueueCtrl" parameterType="map" resultMap="selectQueueCtrlPage">
+  	 select * from bc_QueueCtrl b
+  </select>
+  
+  <!--查询默认模板--> 
+  <select id="selectDef" parameterType="map" resultMap="selectDefPage">
+  	 select b.def from bc_takemodel b where b.styleId = #{styleId}
+  </select>
+  
+  <!--查询树形业务--> 
+   <select id="selectBuzTime" parameterType="map" resultMap="selectBuzTimePage">
+	select b.bus_id ,b.tree_pid,b.business_code,b.sort_num,b.levelnum,b.prior_time,b.max_pick_up,
+    b.call_head,bus.business_name,b.business_en_name,b.is_show_en,b.is_swipe,b.pick_up_advice,
+    (select case when count(1)=0 then 'open' else 'closed' end from BSC_BRANCH_BUSINESS t where t.tree_pid=b.bus_id ) state
+	from BSC_BRANCH_BUSINESS b inner join bc_businessmanage bus on (b.bus_id=bus.business_id) where b.tree_pid = #{treePid}
+  </select>
+  
+   <!--查询指定id的模板样式-->
+   <select id="getStyle" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodel_getstyle(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	<!-- #{pageDatas,jdbcType=VARCHAR,mode=OUT} -->
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=getStylePage}
+	    )
+	 }  
+  </select>
+  
+   <!--保存模板-->
+   <select id="saveConfig" parameterType="map" statementType="CALLABLE">
+  	 {call proc_takemodel_saveconfig(
+  	 		#{styleId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{screenResolution,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateTypeId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{styleValue,jdbcType=VARCHAR,mode=IN},
+	  	  	#{def,jdbcType=VARCHAR,mode=IN},
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	 }  
+  </select>
+  
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.PatchVersionMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectPachtVersionByPageMap" type="map" >
+	    <id column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_NAME" property="patchName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_MD5" property="patchMd5" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_PATH" property="patchPath" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_REMARK" property="patchRemark" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_DATE" property="patchDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="STATUS" property="status" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PATCH_VERNO" property="patchVerno" javaType="String" jdbcType="VARCHAR" />
+	    <result column="INTACT_FLAG" property="intactFlag" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DB_FLAG" property="dbFlag" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPagePatchVersion" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcpatchversion_page(
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectPachtVersionByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertPatchVersion" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcpatchversion_add(
+	  	  	#{patchName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchVerno,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchMd5,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchPath,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchRemark,jdbcType=VARCHAR,mode=IN},
+	  	  	#{status,jdbcType=VARCHAR,mode=IN},
+	  	  	#{intactFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dbFlag,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchId,jdbcType=VARCHAR,mode=OUT},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  
+  
+  <!--2017070620 by hongxz 调用存储过程记录设备更新步骤-->
+  <select id="insertUpgradeProcess" parameterType="map" statementType="CALLABLE">
+  	 {call proc_BSCDEVUPGRADEPROCESS_add(
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{patchId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdtePatchVersion" parameterType="map" statementType="CALLABLE">
+  	 {call proc_updateclientversion(
+	  	  	#{orgCode,jdbcType=VARCHAR,mode=IN},
+	  	  	#{venderNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{attachmentPath,jdbcType=VARCHAR,mode=IN},
+	  	  	#{md5Code,jdbcType=VARCHAR,mode=IN},
+	  	  	#{versionName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeletePatchVersion" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcpatchversion_remove(
+  	       #{id,jdbcType=VARCHAR,mode=IN},
+	  	   #{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--2017-07-08：新版：自动升级-->
+  <select id="findPatchVersionByConditon" parameterType="map" resultMap="selectPachtVersionByPageMap">
+  	select 
+  			p.patch_name,
+  			p.patch_md5,
+  			p.patch_path
+  	from BC_PATCHVERSION  p  
+  	where p.id = #{id,jdbcType=VARCHAR} 
+  </select>
+  
+  <!--20180815 by zhousj 调用存储过程记录设备更新步骤-->
+  <select id="allInsertUpgradeProcess" parameterType="map" statementType="CALLABLE">
+  	 {call proc_DEVUPGRADEPROCESS_addall(
+	  	  	#{patchId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+</mapper>

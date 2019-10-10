@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.basicconfig.persistence.inf.ResourceUploadMapper">
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectResourceUploadByPageMap" type="map" >
+	    <id column="ID" property="id" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FILE_NAME" property="fileName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FILE_PATH" property="filePath" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FILE_TYPE" property="fileType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="UPLOAD_DATE" property="uploadDate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="FILE_REMARK" property="fileRemark" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageResourceUpload" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcresourceupload_page(
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectResourceUploadByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertResourceUpload" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bcresourceupload_add(
+	  	  	#{fileName,jdbcType=VARCHAR,mode=IN},
+	  	  	#{filePath,jdbcType=VARCHAR,mode=IN},
+	  	  	#{fileType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{fileRemark,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT} 
+	    )
+	  }  
+  </select>
+  
+  
+  
+  
+  
+</mapper>

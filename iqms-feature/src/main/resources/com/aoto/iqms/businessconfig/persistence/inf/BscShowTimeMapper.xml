@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscShowTimeMapper">
+    
+    <!-- 查询输出结果 -->
+    <resultMap id="BscShowTimeMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ROW_ID" property="rowId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATE_TYPE" property="dateType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_NUM" property="maxNum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <resultMap id="buzTimesMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_ID" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DATE_TYPE" property="dateTypeId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="BEGIN_TIME" property="beginTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="END_TIME" property="endTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_NUM" property="maxNum" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  <!-- by hongxz 20171208 一键检测 业务 及 业务时间 -->
+	  <resultMap id="selectBuzTimeCheck" type="map" >
+	    <result column="org_id" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="device_no" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="date_type" property="dateType" javaType="String" jdbcType="VARCHAR" />
+	    <result column="bus_id" property="busId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="cnt" property="cnt" javaType="int" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  
+  <!--调用存储过程进行查询--> 
+  <select id="callshowTimeQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscshowtime_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	 		#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=BscShowTimeMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBscShowTime" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscshowtime_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{rowId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{dateType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{beginTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxNum,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+	<!--调用存储过程进行记录删除-->
+   <select id="callDeleteShowTime" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscshowtime_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	        #{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyShowTime" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscshowtime_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+   <!--调用存储过程查询数据是否存在-->
+  <select id="callIsExistShowTime" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bscshowtime_exist(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行查询buzTimes--> 
+  <select id="callBuzTimes" parameterType="map" statementType="CALLABLE">
+  	 {call proc_buztimes_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=buzTimesMap}
+	    )
+	  }  
+  </select>
+  
+  <!-- by hongxz 20171207 一键检测 业务显示时间检测 -->
+  <select id="checkedBuzTime" parameterType="map" resultMap="selectBuzTimeCheck">
+      select org_id,BUSINESS_NAME,device_no,date_type,bus_id,count(1) cnt from (select bb.org_id,
+           vbm.BUSINESS_NAME,
+           bb.device_no,
+           bb.bus_id,
+           st.begin_time,
+           st.end_time,
+           st.date_type
+      from bsc_branch_business bb
+      left join bsc_show_time st
+        on (bb.bus_id = st.business_id and bb.device_no = st.device_no 
+          )
+      left join view_busmenu vbm on (bb.bus_id = vbm.BUSINESS_ID)
+      where bb.device_no = #{deviceNo,jdbcType=VARCHAR} 
+            and bb.bus_id != 1) tmp 
+      group by org_id,BUSINESS_NAME,device_no,date_type,bus_id order by bus_id
+  </select>
+  <!--调用存储过程进行查询--> 
+  <select id="findShowTime" parameterType="map" statementType="CALLABLE">
+  	 {call proc_findShowTime_query(
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	 		#{businessId,jdbcType=VARCHAR,mode=IN},
+  	 		#{dateType,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=BscShowTimeMap}
+	    )
+	  }  
+  </select>
+  
+</mapper>

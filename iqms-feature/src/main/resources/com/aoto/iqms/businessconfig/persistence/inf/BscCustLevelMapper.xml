@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.businessconfig.persistence.inf.BscCustLevelMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectBscCustLevelByPageMap" type="map" >
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="DEVICE_NO" property="deviceNo" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CUST_LEVEL" property="custLevel" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_ID" property="businessId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_NAME" property="businessName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="callHead" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_WAIT_TIME" property="maxWaitTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_TEMPLATE" property="ticketTemplate" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_START" property="isStart" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND1" property="extend1" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND2" property="extend2" javaType="String" jdbcType="VARCHAR" />
+	    <result column="EXTEND3" property="extend3" javaType="String" jdbcType="VARCHAR" />
+	    <result column="LEVEL_NAME" property="levelName" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+	  
+	  <!-- custLevels.json -->
+    <resultMap id="custLevelsMap" type="map" >
+	    <result column="CUST_LEVEL" property="levelId" javaType="int" jdbcType="VARCHAR" />
+	    <result column="LEVEL_NAME" property="levelName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="BUSINESS_ID" property="buzTypeId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="PRIOR_TIME" property="priorityTime" javaType="String" jdbcType="VARCHAR" />
+	    <result column="CALL_HEAD" property="prefix" javaType="String" jdbcType="VARCHAR" />
+	    <result column="MAX_WAIT_TIME" property="maxWaiting" javaType="String" jdbcType="VARCHAR" />
+	    <result column="TICKET_TEMPLATE" property="tktTmpId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="IS_START" property="enabled" javaType="String" jdbcType="VARCHAR" />
+	  </resultMap>
+  <!--调用存储过程进行分页查询--> 
+  <select id="callPageBscCustLevel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_page(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscCustLevelByPageMap}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程查询--> 
+  <select id="callBscCustLevelQuery" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+  	 		#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectBscCustLevelByPageMap}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行增加记录-->
+  <select id="callInsertBscCustLevel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_add(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{levelName,jdbcType=VARCHAR,mode=IN}, 
+	  	  	#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{priorTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callHead,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxWaitTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ticketTemplate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isStart,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程进行记录更新-->
+  <select id="callUpdteBscCustLevel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_edit(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{businessId,jdbcType=VARCHAR,mode=IN},
+	  	  	<!-- #{levelName,jdbcType=VARCHAR,mode=IN}, -->
+	  	  	#{priorTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{callHead,jdbcType=VARCHAR,mode=IN},
+	  	  	#{maxWaitTime,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ticketTemplate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{isStart,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend1,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend2,jdbcType=VARCHAR,mode=IN},
+	  	  	#{extend3,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行记录删除-->
+   <select id="callDeleteBscCustLevel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_remove(
+  	        #{orgId,jdbcType=VARCHAR,mode=IN},
+  	        #{deviceNo,jdbcType=VARCHAR,mode=IN},
+  	        #{custLevel,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  
+  <!--调用存储过程应用到下级机构-->
+  <select id="callCopyBscCustLevel" parameterType="map" statementType="CALLABLE">
+  	 {call proc_bsccustlevel_copy(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{targetNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{ReturnCode,jdbcType=VARCHAR,mode=OUT}
+	    )
+	  }  
+  </select>
+  <!--调用存储过程进行查询custLevels--> 
+  <select id="callCustLevels" parameterType="map" statementType="CALLABLE">
+  {call proc_custlevels_query(
+  	 		#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{deviceNo,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=custLevelsMap}
+	    )
+	 }
+  </select>
+  
+  
+  <!-- by hongxz 201712011 一键检测 客户级别检测 -->
+  <select id="checkedCustLevel" parameterType="map" resultMap="selectBscCustLevelByPageMap">
+	  select * from bsc_cust_level cl where cl.device_no = #{deviceNo,jdbcType=VARCHAR} order by cl.cust_level
+  </select>
+  
+</mapper>

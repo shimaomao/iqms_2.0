@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aoto.iqms.report.persistence.inf.ComeTimeReportMapper">
+    
+    <!-- 分页查询输出结果 -->
+    <resultMap id="selectComeTimeReportByPageMap" type="map" >
+	    <id column="rnum" property="rnum" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_CODE" property="orgCode" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_ID" property="orgId" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ORG_NAME" property="orgName" javaType="String" jdbcType="VARCHAR" />
+	    <result column="COME_DT" property="comeDt" javaType="String" jdbcType="VARCHAR" />
+	    <result column="seven_count" property="sevenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="eight_count" property="eightCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="nine_count" property="nineCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="ten_count" property="tenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="eleven_count" property="elevenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="twelve_count" property="twelveCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="thirteen_count" property="thirteenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="fourteen_count" property="fourteenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="fifteen_count" property="fifteenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="sixteen_count" property="sixteenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="seveteen_count" property="seveteenCount" javaType="String" jdbcType="VARCHAR" />
+	    <result column="eightee_count" property="eighteeCount" javaType="String" jdbcType="VARCHAR" />
+	   
+	  </resultMap>
+	  
+  <!--调用存储过程进行分页查询--> 
+  <select id="procPageComeTimeReport" parameterType="map" statementType="CALLABLE">
+  	 {call proc_report_cometime(
+	  	  	#{orgId,jdbcType=VARCHAR,mode=IN},
+	  	  	#{startDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{endDate,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortField,jdbcType=VARCHAR,mode=IN},
+	  	  	#{sortDirection,jdbcType=VARCHAR,mode=IN},
+	  	  	#{pageSize,jdbcType=NUMERIC,mode=IN},
+	  	  	#{pageIndex,jdbcType=NUMERIC,mode=IN},
+	  	  	#{totalrows,jdbcType=NUMERIC,mode=OUT},
+	  	  	#{pageDatas,jdbcType=CURSOR,mode=OUT,javaType=ResultSet, resultMap=selectComeTimeReportByPageMap}
+	    )
+	  }  
+  </select>
+</mapper>
